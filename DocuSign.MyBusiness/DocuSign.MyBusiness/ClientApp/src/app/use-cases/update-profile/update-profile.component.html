@@ -1,0 +1,135 @@
+<div class="use-case-container" [class.loading]="executingAction">
+    <app-header [style]="'white'"></app-header>
+    <div class="content">
+        <section class="use-case-section">
+            <div class="container-fluid">
+                <div class="use-case-wrapper">
+                    <div class="use-case-info d-flex">
+                        <h1 class="use-case-title" translate>UseCase3.UpdateProfileTitle</h1>
+                        <div><img src="assets/img/ic-custom-three.png" alt="" /></div>
+                    </div>
+
+                    <div class="d-flex flex-wrap use-case-description">
+                        <div class="col-md-5 step-container">
+                            <p class="step-title" translate>UseCase3.UpdateProfileDescription</p>
+                            <button
+                                class="btn btn-save details-btn collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#details"
+                                aria-expanded="false"
+                                aria-controls="details"
+                                translate
+                            >
+                                UseCases.DetailsButton
+                                <img src="assets/img/chevron-down.png" alt="" />
+                            </button>
+                            <div class="collapse" id="details">
+                                <div class="card card-body" [innerHTML]="'UseCase3.CodeFlow' | translate"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 step-container">
+                            <ul class="options-list">
+                                <li translate>UseCase3.UpdateProfileOption1</li>
+                                <li translate>UseCase3.UpdateProfileOption2</li>
+                                <li translate>UseCase3.UpdateProfileOption3</li>
+                                <li translate>UseCase3.UpdateProfileOption4</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isConnected" class="d-flex flex-wrap use-case-form">
+                        <form [formGroup]="updateProfileForm" [class.was-validated]="updateProfileForm.invalid">
+                            <div class="d-flex flex-wrap">
+                                <div class="step-container">
+                                    <p class="step-title" [innerHTML]="'UseCase3.UpdateProfileAuthorizeTitle' | translate"></p>
+                                    <div class="d-flex flex-column">
+                                        <div class="input-wrapper first-name">
+                                            <label class="margin-top" translate>UseCases.LoginPlaceholder</label>
+                                            <input
+                                                type="text"
+                                                class="form-control form-control-input text-black"
+                                                id="login"
+                                                placeholder="{{ 'UseCases.LoginPlaceholder' | translate }}"
+                                                formControlName="login"
+                                                [class.invalid]="isInvalid(updateProfileForm.get('login'))"
+                                            />
+                                            <ng-container *ngIf="isInvalid(updateProfileForm.get('login'))">
+                                                <div class="invalid-feedback">
+                                                    {{
+                                                        (updateProfileForm.get('login').value
+                                                            ? 'ErrorMessages.FieldErrors.invalid_user'
+                                                            : 'ErrorText'
+                                                        ) | translate
+                                                    }}
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        <div class="input-wrapper">
+                                            <label class="margin-top" translate>UseCases.PasswordPlaceholder</label>
+                                            <input
+                                                type="password"
+                                                class="form-control form-control-input text-black"
+                                                id="password"
+                                                placeholder="{{ 'UseCases.PasswordPlaceholder' | translate }}"
+                                                formControlName="password"
+                                                [class.invalid]="isInvalid(updateProfileForm.get('password'))"
+                                            />
+                                            <ng-container *ngIf="isInvalid(updateProfileForm.get('password'))">
+                                                <div class="invalid-feedback">
+                                                    {{
+                                                        (updateProfileForm.get('password').value
+                                                            ? 'ErrorMessages.FieldErrors.invalid_password'
+                                                            : 'ErrorText'
+                                                        ) | translate
+                                                    }}
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <button
+                                        *ngIf="!executingAction"
+                                        class="btn send-btn authorize-profile-btn"
+                                        (click)="authorize()"
+                                        [class.disabled]="!updateProfileForm.valid"
+                                        translate
+                                    >
+                                        UseCase3.UpdateProfileAuthorizeButton
+                                        <img src="assets/img/concent-icon.png" alt="" />
+                                    </button>
+                                    <button *ngIf="executingAction" class="btn btn-connecting" translate>
+                                        UseCase3.UpdateProfileAuthorizationButton
+                                        <img src="assets/img/edit-icon.png" alt="" />
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div *ngIf="isConnected && profileData" class="user-info-container">
+                        <span class="type-icon">
+                            <img src="assets/img/admin-icon-black.png" alt="" />
+                        </span>
+                        <div class="d-flex info-container">
+                            <img class="arrow-right" src="assets/img/docusign-icon.png" alt="" />
+                            <div class="user-info">
+                                <div class="user-name">{{ profileData?.fullName }}</div>
+                                <div class="user-email">{{ profileData?.email }}</div>
+                                <div class="user-account">{{ profileData?.countryCode }}{{ profileData?.phoneNumber }}</div>
+                            </div>
+                            <button class="btn btn-save btn-sm setup-btn" (click)="editProfile()" translate>
+                                UseCase3.UpdateProfileEditButton
+                                <img class="arrow-right" src="assets/img/edit-icon.png" alt="" />
+                            </button>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap buttons-container">
+                        <button class="btn btn-cancel" (click)="navigateHome()" translate>CancelButton</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="footer-container white">
+        <app-footer></app-footer>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+.toast-container {
+    overflow: auto;
+    max-height: 100%;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $gray-200;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $gray;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: $gray-500;
+    }
+}
+
+.toast-container .ngx-toastr.custom-toastr {
+    color: $black !important;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 40px;
+    width: 500px;
+    height: auto;
+    border-radius: 15px;
+    background-position: right 40px center;
+    background-repeat: no-repeat;
+    box-shadow: none;
+    border: none;
+    background-size: 60px;
+
+    &:hover,
+    &:focus,
+    &.active {
+        border: none;
+        box-shadow: none;
+    }
+
+    &.no-description {
+        .toast-title {
+            margin-top: 15px;
+        }
+    }
+
+    &.error-message {
+        background-color: $error;
+        background-image: url('./../../../assets/img/warning-icon.png');
+    }
+
+    &.success-message {
+        background-color: $yellow;
+        background-image: url('./../../../assets/img/success-icon.png');
+    }
+    
+    &.info-message {
+        background-color: $gray-400;
+        background-size: 80px;
+        background-image: url('./../../../assets/img/info.png');
+    }
+
+    &.info-toastr {
+        height: 200px;
+        background-position: right 40px top 75px;
+    }
+
+    &.tabs {
+        height: auto;
+    }
+
+    .toast-title {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+    }
+
+    .toast-message {
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 8px;
+
+        table {
+            width: 100%;
+            border: 2px solid rgba(241, 241, 241, 0.7);
+            td {
+                padding: 5px 10px;
+                background-color: rgba(241, 241, 241, 0.7);
+                border: 1px solid $gray-600;
+            }
+        }
+    }
+}

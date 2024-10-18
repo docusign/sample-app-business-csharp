@@ -1,0 +1,254 @@
+.btn {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22px;
+    border-radius: 30px;
+    padding: 8px 24px;
+
+    &.disabled {
+        box-shadow: none;
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.5;
+        color: inherit;
+        background-color: inherit;
+        border-color: inherit;
+    }
+
+    &:active {
+        background: linear-gradient(90deg, $yellow 4.94%, $yellow 180.86%), linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+    }
+}
+
+.buttons-group {
+    .btn {
+        &:not(:last-child) {
+            &:not(.btn-sm):not(.btn-lg) {
+                margin-right: 9px;
+                //margin-bottom: 10px;
+                @include media-breakpoint-up(lg) {
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+
+    .btn-sm {
+        &:not(:last-child) {
+            @include media-breakpoint-up(lg) {
+                margin-right: 15px;
+            }
+        }
+    }
+
+    .btn-lg {
+        &:not(:last-child) {
+            margin-bottom: 25px;
+            @include media-breakpoint-up(xl) {
+                margin-right: 15px;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.btn-connect,
+.authorize-btn {
+    color: $white;
+    margin-bottom: 40px;
+    border: 1.5px solid $yellow;
+
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        color: $black;
+        border-image: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        border: 1px solid;
+        img {
+            filter: invert(100%);
+        }
+    }
+
+    &.disabled {
+        background: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        img {
+            filter: invert(100%);
+        }
+    }
+}
+
+.logout-btn.authorize-btn {
+    margin-top: 0;
+    &:hover,
+    &:focus {
+        color: $black;
+    }
+}
+
+.btn-login.btn-connect {
+    border: 1.5px solid $white;
+    margin-top: 16px;
+}
+
+.authorize-btn-as-admin {
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        color: $black;
+        border-image: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        border: 1px solid;
+        img {
+            filter: invert(100%);
+        }
+    }
+}
+
+.btn-connecting {
+    background: linear-gradient(90deg, $yellow 4.94%, $yellow 180.86%), linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+    &:hover,
+    &:active,
+    &:focus {
+        cursor: default;
+    }
+}
+
+.btn-connected,
+.btn-concent-granted {
+    color: $black;
+    background: $gray-500;
+    border: none;
+
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        border: none;
+    }
+}
+
+.btn-disconnect {
+    background: $black;
+    color: $white;
+    border: none;
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+        color: $white;
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        border: none;
+    }
+}
+
+.btn-info {
+    color: $black;
+    background-color: $white;
+    border: 1.5px solid $black;
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        border: 1.5px solid $black;
+        cursor: default;
+    }
+}
+
+.btn-outline-info {
+    color: $black;
+    background-color: $gray-200;
+    border: none;
+
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        border: none;
+        cursor: default;
+    }
+}
+
+.btn-cancel {
+    background: $black;
+    color: $white;
+    border: none;
+
+    &:hover,
+    &:focus {
+        border: none;
+        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        color: $white;
+    }
+}
+
+.btn-save {
+    background: $gray-200;
+    color: $black;
+    border: none;
+    &.invert-image img {
+        filter: invert(100%);
+    }
+
+    &:hover,
+    &:focus {
+        border: none;
+        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        color: $black;
+    }
+
+    &.disabled {
+        background: $gray-200;
+        color: $black;
+    }
+}
+
+.send-btn {
+    color: $black;
+    background-color: $white;
+    border: 1.5px solid $black;
+
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        border: 1.5px solid $black;
+    }
+
+    &.disabled {
+        border: 1.5px solid $black;
+    }
+}
+
+.action-button {
+    color: $black;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 800;
+    background-color: $gray-200;
+    border: none;
+    &.btn-primary {
+        &:hover,
+        &:active,
+        &:focus {
+            background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+            box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+            border: none;
+        }
+    }
+
+    &.disabled {
+        background-color: $gray-200;
+    }
+}
+
+.copy-btn {
+    color: $gray-500;
+    border: 2px solid $gray-500;
+    &:hover,
+    &:focus {
+        color: $gray-500;
+        border: 2px solid $gray-500;
+    }
+}

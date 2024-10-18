@@ -1,0 +1,18 @@
+<div class="action-container">
+    <div class="card-info">
+        <span class="type-icon">
+            <img [src]="action.iconSrc" alt="" />
+        </span>
+        <h2 class="card-info-title" translate>{{ action.title }}</h2>
+        <span class="card-info-description" translate>{{ action.description }}</span>
+        <div class="card-info-button-holder">
+            <button type="button" class="btn btn-primary action-button" (click)="action.action()" translate>
+                {{ action.actionTitle }}
+                <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
+            </button>
+        </div>
+        <ul class="card-info-list">
+            <li *ngFor="let feature of action.featuresDescription" translate>{{ feature }}</li>
+        </ul>
+    </div>
+</div>

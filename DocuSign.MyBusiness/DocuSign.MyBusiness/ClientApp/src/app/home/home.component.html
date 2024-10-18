@@ -1,0 +1,59 @@
+<app-header [style]="'black'"></app-header>
+<div class="content">
+    <section class="hero-section hero-home" [class.small-container]="connectionStatus.isConnected$ | async">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-5 col-md-12">
+                    <div class="hero-info-container">
+                        <div class="hero-info">
+                            <h1 class="main-title" [innerHTML]="'WelcomeHeader' | translate"></h1>
+                            <h4 class="main-description" translate>WelcomeDescription</h4>
+                        </div>
+                        <ng-container *ngIf="!(connectionStatus.isConnected$ | async)">
+                            <a class="btn btn-connect" [routerLink]="['/admin']" [queryParams]="{type: 'UserAccount'}" translate>
+                                ConnectAccountButton
+                                <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
+                            </a>
+                            <a class="btn btn-connect btn-login" [routerLink]="['/admin']" [queryParams]="{type: 'TestAccount'}" translate>
+                                LoginWithTestAccountButton
+                                <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
+                            </a>
+                            <p class="step-description" translate>WelcomeStepDescription</p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-12">
+                    <div *ngIf="connectionStatus.isConnected$ | async" class="user-info-container">
+                        <span class="type-icon">
+                            <img src="assets/img/admin-icon.png" alt="" />
+                        </span>
+                        <div class="d-flex info-container">
+                            <app-user-info [connectedUser]="connectedUser"></app-user-info>
+                            <a class="btn btn-save invert-image btn-sm setup-btn" href="/admin" translate>
+                                SetupButton
+                                <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
+                            </a>
+                        </div>
+                        <span class="info-icon">
+                            <img src="assets/img/info.png" alt="" />
+                        </span>
+                    </div>
+                    <div *ngIf="!(connectionStatus.isConnected$ | async)" class="main-image">
+                        <img class="home-first-image" src="assets/img/home-img-1.png" alt="" />
+                        <img class="home-second-image" src="assets/img/home-img-2.png" alt="" />
+                        <div class="d-flex">
+                            <img class="home-third-image" src="assets/img/home-img-3.png" alt="" />
+                            <span class="cta-title" [innerHTML]="'Note' | translate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <app-actions *ngIf="connectionStatus.isConnected$ | async"></app-actions>
+    <app-info></app-info>
+    <app-footer-links></app-footer-links>
+    <div class="footer-container white">
+        <app-footer></app-footer>
+    </div>
+</div>

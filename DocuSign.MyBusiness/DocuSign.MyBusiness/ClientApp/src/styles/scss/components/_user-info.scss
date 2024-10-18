@@ -1,0 +1,25 @@
+.user-info {
+    padding: 10px 24px;
+    display: inline-block;
+    vertical-align: middle;
+
+    .user-name {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 28px;
+        margin-bottom: 9px;
+    }
+
+    .user-email {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        margin-bottom: 9px;
+    }
+
+    .user-account {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+    }
+}

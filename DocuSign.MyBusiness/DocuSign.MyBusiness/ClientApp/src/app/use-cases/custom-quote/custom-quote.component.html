@@ -1,0 +1,123 @@
+<div class="use-case-container" [class.loading]="executingAction">
+    <app-header [style]="'white'"></app-header>
+    <div class="content">
+        <section class="use-case-section">
+            <div class="container-fluid">
+                <div class="use-case-wrapper">
+                    <div class="use-case-info d-flex">
+                        <h1 class="use-case-title" translate>UseCase4.CustomQuoteTitle</h1>
+                        <div><img src="assets/img/ic-custom-four.png" alt="" /></div>
+                    </div>
+
+                    <div class="d-flex flex-wrap use-case-description">
+                        <div class="col-md-5 step-container">
+                            <p class="step-title" translate>UseCase4.CustomQuoteDescription</p>
+                            <button
+                                class="btn btn-save details-btn collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#details"
+                                aria-expanded="false"
+                                aria-controls="details"
+                                translate
+                            >
+                                UseCases.DetailsButton
+                                <img src="assets/img/chevron-down.png" alt="" />
+                            </button>
+                            <div class="collapse" id="details">
+                                <div class="card card-body" [innerHTML]="'UseCase4.CodeFlow' | translate"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 step-container">
+                            <ul class="options-list">
+                                <li translate>UseCase4.CustomQuoteOption1</li>
+                                <li translate>UseCase4.CustomQuoteOption2</li>
+                                <li translate>UseCase4.CustomQuoteOption3</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap use-case-form">
+                        <form [formGroup]="customQuoteForm" [class.was-validated]="customQuoteForm.invalid">
+                            <div class="d-flex flex-wrap">
+                                <div class="step-container">
+                                    <p class="step-title" translate>UseCases.SendToTitle</p>
+                                    <div class="d-flex">
+                                        <div class="input-wrapper first-name">
+                                            <label class="margin-top" translate>UseCases.FirstNamePlaceholder</label>
+                                            <input
+                                                type="text"
+                                                class="form-control form-control-input text-black"
+                                                id="firstName"
+                                                placeholder="{{ 'UseCases.FirstNamePlaceholder' | translate }}"
+                                                formControlName="firstName"
+                                                [class.invalid]="isInvalid(customQuoteForm.get('firstName'))"
+                                            />
+                                            <div *ngIf="isInvalid(customQuoteForm.get('firstName'))" class="invalid-feedback" translate>
+                                                ErrorText
+                                            </div>
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <label class="margin-top" translate>UseCases.LastNamePlaceholder</label>
+                                            <input
+                                                type="text"
+                                                class="form-control form-control-input text-black"
+                                                id="lastName"
+                                                placeholder="{{ 'UseCases.LastNamePlaceholder' | translate }}"
+                                                formControlName="lastName"
+                                                [class.invalid]="isInvalid(customQuoteForm.get('lastName'))"
+                                            />
+                                            <div *ngIf="isInvalid(customQuoteForm.get('lastName'))" class="invalid-feedback" translate>
+                                                ErrorText
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="step-title margin-top" translate>UseCase4.CustomQuoteProvideNumberTitle</p>
+                                    <div class="d-flex phone-wrapper">
+                                        <div>
+                                            <div class="dropdown-container country-codes">
+                                                <div class="dropdown">
+                                                    <label class="margin-top" translate>UseCase4.CustomQuoteCountryCodeLabel</label>
+                                                    <ng-select placeholder="Select" [clearable]="false" formControlName="countryCode">
+                                                        <ng-option *ngFor="let list of countryList" [value]="list.dial_code">
+                                                            <img class="country-image" [src]="list.imageSrc" /> {{ list.dial_code }}
+                                                        </ng-option>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-wrapper">
+                                            <label class="margin-top" translate>UseCase4.CustomQuotePhoneNumberLabel</label>
+                                            <input
+                                                type="number"
+                                                class="form-control form-control-input text-black phone-input"
+                                                id="phoneNumber"
+                                                placeholder="(XXX) XXX-XXXX"
+                                                formControlName="phoneNumber"
+                                                [class.invalid]="isInvalid(customQuoteForm.get('phoneNumber'))"
+                                            />
+                                            <div *ngIf="isInvalid(customQuoteForm.get('phoneNumber'))" class="invalid-feedback" translate>
+                                                ErrorText
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="d-flex flex-wrap buttons-container">
+                        <button class="btn btn-cancel" (click)="navigateHome()" translate>CancelButton</button>
+                        <button class="btn send-btn" [class.disabled]="!customQuoteForm.valid" (click)="sendNow()" translate>
+                            UseCases.SendNowButton
+                            <img class="arrow-right" src="assets/img/send-icon.png" alt="" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="footer-container white">
+        <app-footer></app-footer>
+    </div>
+</div>

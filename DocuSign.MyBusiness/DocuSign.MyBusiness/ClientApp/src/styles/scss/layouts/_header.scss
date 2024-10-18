@@ -1,0 +1,111 @@
+.header {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    background-color: $black;
+    @include media-breakpoint-up(lg) {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    &.header-home {
+        background-color: transparent;
+    }
+
+    .navbar-brand {
+        color: white;
+        font-family: $poppins;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 27px;
+        @include media-breakpoint-up(lg) {
+            font-size: 20px;
+            line-height: 32px;
+        }
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .navbar-brand-image {
+        margin-right: 4px;
+        img {
+            width: 50%;
+            margin-left: -20px;
+        }
+    }
+
+    .nav-item {
+        border: 2px solid transparent;
+        position: relative;
+        cursor: pointer;
+        @include media-breakpoint-up(lg) {
+            font-size: 14px;
+            line-height: 19px;
+        }
+
+        .nav-link {
+          padding: 20px 28px;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 2px;
+          border: none;
+          cursor: pointer;
+        }
+
+        &.active {
+            .nav-link {
+                opacity: 1;
+                @include media-breakpoint-up(lg) {
+                    background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+                    box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+                    border: none;
+                }
+
+                &:hover,
+                &:active,
+                &:focus {
+                    @include media-breakpoint-up(lg) {
+                        background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+                        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+                        border: none;
+                    }
+                }
+            }
+        }
+
+        a {
+            color: $white;
+        }
+    }
+
+    .nav-link {
+      padding: 20px 28px;
+        @include media-breakpoint-up(lg) {
+            opacity: 1;
+            padding: 7px 20px;
+            border-radius: 24px;
+            height: 32px;
+        }
+
+        &:hover {
+            background: linear-gradient(90deg, $gray-200 0%, $purple 187.29%);
+            box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+            border: none;
+        }
+
+        .icon {
+            display: none;
+            @include media-breakpoint-up(lg) {
+                display: inline;
+                margin-left: 3px;
+                margin-top: -2px;
+            }
+        }
+    }
+}

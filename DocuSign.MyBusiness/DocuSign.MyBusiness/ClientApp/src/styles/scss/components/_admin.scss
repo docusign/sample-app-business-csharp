@@ -1,0 +1,306 @@
+.admin-container {
+    .content,
+    .header {
+        background: $black;
+    }
+
+    &.loading {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .footer-container {
+        background-color: $black;
+        color: $gray-500;
+
+        .footer {
+            background-color: $black;
+            border-top: 1px solid $gray-500;
+
+            .copyright {
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+.back-btn {
+    color: $white;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration-line: underline;
+    img {
+        transform: scaleX(-1);
+        margin-right: 8px;
+    }
+}
+
+.admin-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 30px;
+
+    @include media-breakpoint-down(lg) {
+        margin: 10px 0;
+    }
+}
+
+.container {
+    @include media-breakpoint-down(lg) {
+        max-width: 800px;
+    }
+}
+
+.admin-form-container {
+    border-radius: 4px;
+    border: 1px solid $gray-500;
+    justify-content: space-between;
+    margin-bottom: 32px;
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    &.no-border {
+        border: none;
+    }
+
+    .step-container {
+        p {
+            color: $gray-400;
+        }
+    }
+}
+
+.step-container {
+    padding: 24px;
+
+    .step-title {
+        color: $gray-400;
+        margin-bottom: 35px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        opacity: 1;
+
+        &.sub-title {
+            opacity: 0.7;
+        }
+    }
+
+    .title-bold {
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 22px;
+        opacity: 0.7;
+    }
+}
+
+.form-control-input {
+    border-radius: 4px;
+    border-color: $gray-500 !important;
+    padding: 9px 10px;
+    background-color: $black;
+    color: $gray-500;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+
+    &:focus,
+    &:active {
+        border: 1px solid $yellow !important;
+        color: $white;
+        background: rgba(213, 255, 0, 0.2) !important;
+    }
+
+    &::placeholder {
+        color: $gray-500;
+    }
+
+    &.account-id,
+    &.user-id {
+        width: 330px;
+    }
+
+    &.disabled {
+        pointer-events: none;
+    }
+
+    &.full-name {
+        width: 530px;
+    }
+    
+    &.phone {
+        margin-top: 40px;
+        width: 353px;
+    }
+}
+
+.margin-top {
+    margin-top: 16px;
+}
+
+.authorize-btn,
+.btn-connect,
+.btn-connecting,
+.authorize-btn-as-admin,
+.btn-connected,
+.btn-concent-granted,
+.btn-disconnect {
+    margin-top: 35px;
+    margin-bottom: 0;
+
+    img {
+        margin-left: 5px;
+    }
+}
+
+.btn-connected:hover {
+    cursor: default;
+}
+
+.btn-disconnect,
+.authorize-btn-as-admin {
+    margin-left: 35px;
+
+    @include media-breakpoint-down(lg) {
+        margin-left: 0;
+    }
+
+    @include media-breakpoint-down(md) {
+        margin-left: 35px;
+    }
+
+    @include media-breakpoint-down(sm) {
+        margin-left: 0;
+    }
+}
+
+.btn-connect.invert img {
+    filter: invert(100%);
+}
+
+.dropdown-container {
+    justify-content: space-between;
+    margin-bottom: 35px;
+
+    &.accounts {
+        margin-top: 30px;
+    }
+
+    .dropdown {
+        div {
+            color: $gray-500;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            margin-bottom: 4px;
+        }
+
+        select {
+            border-radius: 4px;
+            border: 1px solid $gray-500;
+            padding: 9px 10px;
+            width: 400px;
+            background-color: $black;
+            color: $white;
+
+            @include media-breakpoint-down(sm) {
+                width: 300px;
+            }
+
+            &.disabled {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            &:focus {
+                border: 1px solid $yellow !important;
+            }
+        }
+    }
+}
+
+.buttons-container {
+    justify-content: flex-end;
+
+    .btn-cancel {
+        margin-right: 16px;
+    }
+}
+
+.radio-button-container {
+    color: $white;
+
+    div {
+        margin-right: 30px;
+    }
+
+    input[type=radio].form-control+label.radio-label {
+        margin-left: 5px;
+        line-height: 16px;
+    }
+}
+
+.info-container {
+    text-align: left;
+    color: $white;
+}
+
+.country-codes.admin {
+    width: 160px;
+    label {
+        color: $gray-400;
+        opacity: 0.7;
+    }
+
+    .dropdown div {
+        color: $white;
+    }
+
+    .ng-select.ng-select-single .ng-select-container {
+        background-color: $black;
+
+        &:focus,
+        &:active {
+            border: 1px solid $yellow !important;
+            color: $white !important;
+            background: rgba(213, 255, 0, 0.2) !important;
+        }
+    }
+
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+        background-color: $black;
+        color: $white;
+    }
+
+    .ng-select .ng-select-container .ng-value-container .ng-input>input {
+        color: $white;
+    }
+
+    .ng-dropdown-panel .scroll-host {
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            background-color: $black;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: $gray-400;
+        }
+    }
+}
+
+.input-wrapper label {
+    color: $gray-400;
+    opacity: 0.7;
+}

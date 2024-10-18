@@ -1,0 +1,10 @@
+<section class="action-section text-center">
+    <div class="container-fluid actions-container">
+        <span class="action-title" translate>Actions.ActionsTitle</span>
+        <div class="actions">
+            <ng-container *ngFor="let action of actionsMap">
+                <app-action [action]="action"></app-action>
+            </ng-container>
+        </div>
+    </div>
+</section>

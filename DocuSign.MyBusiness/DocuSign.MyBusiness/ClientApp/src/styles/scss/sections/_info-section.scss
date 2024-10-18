@@ -1,0 +1,133 @@
+.info-section {
+    margin: 0 auto;
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position: 100% 240px;
+    padding: 125px 100px;
+    background-color: $white;
+
+    @include media-breakpoint-down(lg) {
+        padding: 125px 16px;
+    }
+
+    @include media-breakpoint-down(md) {
+        padding: 125px 20px;
+
+        .container-fluid {
+            flex-direction: column;
+
+            .info-container {
+                width: 100%;
+
+                .info-title {
+                    margin-bottom: 20px;
+                }
+
+                .info-description {
+                    margin-bottom: 30px;
+                }
+            }
+        }
+
+
+        .links-container {
+            margin-top: 50px;
+
+            .info-links {
+                margin-top: 130px;
+                float: right;
+            }
+        }
+    }
+
+    .container-fluid {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .info-container {
+        text-align: left;
+        width: 50%;
+        color: $black;
+    }
+
+    .spinner-icon {
+        position: absolute;
+        right: 0;
+        img {
+            animation: rotation 10s infinite linear;
+        }
+    }
+
+    .info-title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 28px;
+        margin-bottom: 64px;
+        background: linear-gradient(90deg, $black 0.11%, $purple 102.86%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .info-description {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        margin-bottom: 64px;
+        max-width: 500px;
+    }
+
+    .info-links {
+        margin-top: 190px;
+    }
+
+    .cta-row {
+        display: flex;
+        justify-content: space-between;
+        width: 340px;
+        margin-bottom: 22px;
+    }
+
+    .img-holder {
+        height: 28px;
+        width: 28px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+    }
+
+    .link-title {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: normal;
+        padding-top: 6px;
+        text-decoration-line: underline;
+        color: $black;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    h3 {
+        margin-bottom: 12px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(359deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}

@@ -1,0 +1,25 @@
+<header class="header" [class.header-home]="isHomePage$ | async" role="banner">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light p-0 align-items-lg-end justify-content-lg-between">
+            <a class="navbar-brand d-inline-flex align-items-center p-0" [routerLink]="['']" routerLinkActive="active" translate>
+                <span class="navbar-brand-image d-inline-block">
+                    <img [src]="style === 'black' ? 'assets/img/logo-text-white.png' : 'assets/img/logo-text-black.png'" alt="" />
+                </span>
+            </a>
+            <div class="align-self-lg-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/docusign/sample-app-business-csharp" target="blank" translate>
+                            GitHubSource
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn authorize-btn logout-btn" (click)="logout()" *ngIf="connectionStatus.isConnected$ | async" translate
+                            >Logout</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>

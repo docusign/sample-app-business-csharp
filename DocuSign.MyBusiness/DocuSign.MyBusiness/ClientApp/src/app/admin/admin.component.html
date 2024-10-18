@@ -1,0 +1,256 @@
+<div class="admin-container" [class.loading]="executingAction">
+    <app-header [style]="'black'"></app-header>
+    <div class="content">
+        <section class="container content-section" id="actions">
+            <a class="back-btn" href="/"><img class="arrow-right" src="assets/img/arrow-right.png" alt="" />Back</a>
+            <h2 class="page-title admin-title" translate>Admin.Header</h2>
+            <form [formGroup]="adminForm" [class.was-validated]="adminForm.invalid">
+                <div class="d-flex flex-wrap admin-form-container" [class.disabled]="authenticationType === 'TestAccount'">
+                    <div class="col-md-6 col-lg-5 step-container">
+                        <p class="step-title" [innerHTML]="'AdminForm.Step1' | translate"></p>
+                        <div class="d-flex flex-wrap radio-button-container">
+                            <div *ngFor="let environment of environmentTypes">
+                                <input
+                                    [id]="environment.title"
+                                    [class.disabled]="(connectionStatus.isConsentGranted$ | async) || (authenticationType === 'TestAccount')"
+                                    class="form-control form-control-input"
+                                    type="radio"
+                                    name="basePath"
+                                    (change)="setBasePath(environment.url)"
+                                />
+                                <label [for]="environment.title" class="radio-label">
+                                    {{ environment.title }}</label
+                                >
+                            </div>
+                        </div>
+                        <ng-container *ngIf="isInvalid(adminForm.get('basePath')) && !(connectionStatus.isConsentGranted$ | async)">
+                            <div class="invalid-feedback">
+                                {{
+                                    (adminForm.get('basePath').value ? 'ErrorMessages.FieldErrors.invalid_base_path' : 'ErrorText')
+                                        | translate
+                                }}
+                            </div>
+                        </ng-container>
+                        <button
+                            *ngIf="!(connectionStatus.isConsentGranted$ | async)"
+                            class="btn authorize-btn"
+                            [class.disabled]="isInvalid(adminForm.get('basePath')) || !adminForm.get('basePath').value"
+                            (click)="authorizeAsIndividual()"
+                            translate
+                        >
+                            AdminForm.ConsentButton
+                            <img src="assets/img/concent-icon.png" alt="" />
+                        </button>
+                        <button
+                            *ngIf="!(connectionStatus.isConsentGranted$ | async)"
+                            class="btn btn-connect authorize-btn-as-admin"
+                            [class.disabled]="isInvalid(adminForm.get('basePath')) || !adminForm.get('basePath').value"
+                            (click)="authorizeAsAdmin()"
+                            translate
+                        >
+                            AdminForm.ConsentAdminButton
+                        </button>
+                        <button *ngIf="connectionStatus.isConsentGranted$ | async" class="btn btn-concent-granted" (click)="unauthorize()" translate>
+                            AdminForm.ConsentGrantedButton
+                            <img src="assets/img/check.png" alt="" />
+                        </button>
+                    </div>
+                    <div class="col-md-5 col-lg-4 step-container">
+                        <p translate>AdminForm.Text1</p>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap admin-form-container" [class.disabled]="!(connectionStatus.isConsentGranted$ | async) || authenticationType === 'TestAccount'">
+                    <div class="col-md-5 step-container">
+                        <p class="step-title" [innerHTML]="'AdminForm.Step2' | translate"></p>
+                        <div *ngIf="!(connectionStatus.isConnected$ | async)">
+                            <input
+                                type="text"
+                                class="form-control form-control-input margin-top"
+                                id="baseUri"
+                                placeholder="{{ 'AdminForm.BaseUrlField' | translate }}"
+                                formControlName="baseUri"
+                                [class.invalid]="isInvalid(adminForm.get('baseUri'))"
+                                readonly
+                            />
+                            <ng-container *ngIf="isInvalid(adminForm.get('baseUri'))">
+                                <div class="invalid-feedback">
+                                    {{
+                                        (adminForm.get('baseUri').value ? 'ErrorMessages.FieldErrors.invalid_base_url' : 'ErrorText')
+                                            | translate
+                                    }}
+                                </div>
+                            </ng-container>
+                            <input
+                                type="text"
+                                class="form-control form-control-input margin-top account-id"
+                                id="accountId"
+                                placeholder="{{ 'AdminForm.AccountIdField' | translate }}"
+                                formControlName="accountId"
+                                [class.invalid]="isInvalid(adminForm.get('accountId'))"
+                                readonly
+                            />
+                            <ng-container *ngIf="isInvalid(adminForm.get('accountId'))">
+                                <div class="invalid-feedback">
+                                    {{
+                                        (adminForm.get('accountId').value ? 'ErrorMessages.FieldErrors.invalid_account' : 'ErrorText')
+                                            | translate
+                                    }}
+                                </div>
+                            </ng-container>
+                            <input
+                                type="text"
+                                class="form-control form-control-input margin-top user-id"
+                                id="userId"
+                                placeholder="{{ 'AdminForm.UserIdField' | translate }}"
+                                formControlName="userId"
+                                [class.invalid]="isInvalid(adminForm.get('userId'))"
+                            />
+                            <ng-container *ngIf="isInvalid(adminForm.get('userId'))">
+                                <div class="invalid-feedback">
+                                    {{
+                                        (adminForm.get('userId').value ? 'ErrorMessages.FieldErrors.invalid_grant' : 'ErrorText')
+                                            | translate
+                                    }}
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="connectionStatus.isConnected$ | async" class="d-flex info-container">
+                            <app-user-info [connectedUser]="connectedUser"></app-user-info>
+                        </div>
+                        <button
+                            *ngIf="!(connectionStatus.isConnected$ | async) && !executingAction"
+                            class="btn btn-connect invert"
+                            [class.disabled]="!(connectionStatus.isConsentGranted$ | async) || executingAction || !adminForm.valid"
+                            (click)="connect()"
+                            translate
+                        >
+                            AdminForm.ConnectButton
+                            <img src="assets/img/account-icon.png" alt="" />
+                        </button>
+                        <button *ngIf="!(connectionStatus.isConnected$ | async) && executingAction" class="btn btn-connecting" translate>
+                            AdminForm.ConnectingButton
+                            <img src="assets/img/connecting.png" alt="" />
+                        </button>
+                        <button *ngIf="connectionStatus.isConnected$ | async" class="btn btn-connected" translate>
+                            AdminForm.ConnectedButton
+                            <img src="assets/img/check.png" alt="" />
+                        </button>
+                        <button *ngIf="connectionStatus.isConnected$ | async" class="btn btn-disconnect" (click)="disconnect()" translate>
+                            AdminForm.DisconnectButton
+                        </button>
+                    </div>
+                    <div class="col-md-5 step-container">
+                        <p translate>AdminForm.Text2</p>
+                        <div *ngIf="!(connectionStatus.isConnected$ | async)" class="d-flex flex-wrap dropdown-container accounts">
+                            <div class="dropdown">
+                                <div translate>AdminForm.AccountsLabel</div>
+                                <select #accountsDropdown (change)="selectAccount($event.target.value)">
+                                    <option value="" disabled selected>Select</option>
+                                    <option
+                                        *ngFor="let account of accountsList"
+                                        [value]="account.accountId"
+                                        [selected]="account.accountId === selectedAccountId"
+                                    >
+                                        {{ account.accountName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="d-flex flex-wrap admin-form-container"
+                    [class.disabled]="authenticationType === 'UserAccount' && (!(connectionStatus.isConsentGranted$ | async) || !(connectionStatus.isConnected$ | async))"
+                >
+                    <div class="col-md-5 step-container">
+                        <p class="step-title" [innerHTML]="'AdminForm.Step3' | translate"></p>
+                        <div class="admin-form-container no-border">
+                            <form [formGroup]="userProfileForm" [class.was-validated]="userProfileForm.invalid">
+                                <div class="input-wrapper d-flex justify-content-between">
+                                    <div>
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-input full-name margin-top"
+                                            id="fullName"
+                                            placeholder="{{ 'AdminForm.FullNamePlaceholder' | translate }}"
+                                            formControlName="fullName"
+                                            [class.invalid]="isInvalid(userProfileForm.get('fullName'))"
+                                        />
+                                        <div *ngIf="isInvalid(userProfileForm.get('fullName'))" class="invalid-feedback" translate>
+                                            ErrorText
+                                        </div>
+                                    </div>
+                                </div>
+                                <input
+                                    type="email"
+                                    class="form-control form-control-input full-name margin-top"
+                                    id="email"
+                                    placeholder="{{ 'AdminForm.EmailField' | translate }}"
+                                    formControlName="email"
+                                    [class.invalid]="isInvalid(userProfileForm.get('email'))"
+                                />
+                                <ng-container *ngIf="isInvalid(userProfileForm.get('email'))">
+                                    <div class="invalid-feedback">
+                                        {{ (userProfileForm.get('email').value ? 'ErrorInvalidText' : 'ErrorText') | translate }}
+                                    </div>
+                                </ng-container>
+                                <div class="d-flex phone-wrapper">
+                                    <div>
+                                        <div class="dropdown-container country-codes admin">
+                                            <div class="dropdown">
+                                                <label class="margin-top mb-1" translate>UseCase4.CustomQuotePhoneNumberLabel</label>
+                                                <ng-select placeholder="Select" [clearable]="false" formControlName="countryCode">
+                                                    <ng-option *ngFor="let list of countryList" [value]="list.dial_code">
+                                                        <img class="country-image" [src]="list.imageSrc" /> {{ list.dial_code }}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <input
+                                            type="number"
+                                            class="form-control form-control-input phone margin-top"
+                                            id="phoneNumber"
+                                            placeholder="(XXX) XXX-XXXX"
+                                            formControlName="phoneNumber"
+                                            [class.invalid]="isInvalid(userProfileForm.get('phoneNumber'))"
+                                        />
+                                        <ng-container *ngIf="isInvalid(userProfileForm.get('phoneNumber'))">
+                                            <div class="invalid-feedback">
+                                                {{
+                                                    (userProfileForm.get('phoneNumber').value
+                                                        ? 'ErrorMessages.FieldErrors.invalid_phone_number'
+                                                        : 'ErrorText'
+                                                    ) | translate
+                                                }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-5 step-container">
+                        <p translate>AdminForm.Text3</p>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap buttons-container">
+                    <a class="btn btn-cancel btn-sm" href="/" translate>CancelButton</a>
+                    <button
+                        class="btn btn-save invert-image btn-sm"
+                        [class.disabled]="!userProfileForm.valid || (!adminForm.valid && authenticationType === 'UserAccount')"
+                        (click)="saveSettings()"
+                        translate
+                    >
+                        AdminForm.SaveButton
+                        <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
+                    </button>
+                </div>
+            </form>
+        </section>
+        <div class="footer-container black">
+            <app-footer></app-footer>
+        </div>
+    </div>
+</div>
