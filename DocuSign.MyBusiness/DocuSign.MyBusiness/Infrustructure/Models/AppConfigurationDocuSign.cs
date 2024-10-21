@@ -4,6 +4,7 @@
     {
         public string IntegrationKey { get; set; }
         public string SecretKey { get; set; }
+        public string SecretKeyProd { get; set; }
         public string RedirectBaseUrl { get; set; }
         public string EventNotificationBaseUrl { get; set; }
         public string RSAPrivateKeyFile { get; set; }

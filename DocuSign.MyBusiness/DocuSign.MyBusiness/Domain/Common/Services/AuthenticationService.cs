@@ -38,7 +38,15 @@ namespace DocuSign.MyBusiness.Domain.Common.Services
         {
             string authServer = new Uri(basePath).Host;
             var apiClient = _docuSignClientsFactory.BuildDocuSignAuthClient(authServer);
-            var authToken = apiClient.GenerateAccessToken(_appConfiguration.DocuSign.IntegrationKey, _appConfiguration.DocuSign.SecretKey, code);
+            OAuth.OAuthToken authToken;
+            if (authServer.Contains("-d")) // demo
+            {
+                authToken = apiClient.GenerateAccessToken(_appConfiguration.DocuSign.IntegrationKey, _appConfiguration.DocuSign.SecretKey, code);
+            }
+            else // prod
+            {
+                authToken = apiClient.GenerateAccessToken(_appConfiguration.DocuSign.IntegrationKey, _appConfiguration.DocuSign.SecretKeyProd, code);
+            }
             var userInfo = apiClient.GetUserInfo(authToken.access_token);
             return userInfo.Sub;
         }

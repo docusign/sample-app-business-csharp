@@ -13,6 +13,7 @@ namespace DocuSign.MyBusiness.Infrustructure.Services
             {
                 IntegrationKey = configuration["DocuSign:IntegrationKey"],
                 SecretKey = configuration["DocuSign:SecretKey"],
+                SecretKeyProd = configuration["DocuSign:SecretKeyProd"],
                 RedirectBaseUrl = configuration["DocuSign:RedirectBaseUrl"],
                 EventNotificationBaseUrl = configuration["DocuSign:EventNotificationBaseUrl"],
                 RSAPrivateKeyFile = configuration["DocuSign:RSAPrivateKeyFile"],
