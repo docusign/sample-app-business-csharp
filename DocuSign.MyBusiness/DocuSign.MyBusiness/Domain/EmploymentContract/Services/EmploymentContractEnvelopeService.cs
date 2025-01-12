@@ -55,10 +55,12 @@ namespace DocuSign.MyBusiness.Domain.EmploymentContract.Services
                     ViewUrl senderView = _docuSignApiProvider.EnvelopApi.CreateSenderView(
                         accountId,
                         envelopeSummary.EnvelopeId,
-                        new ReturnUrlRequest
-                        {
+                        new EnvelopeViewRequest{
+                            ViewAccess = "envelope",
                             ReturnUrl = $"{_appConfiguration.DocuSign.RedirectBaseUrl}/{redirectUrl}"
-                        });
+
+                        }
+                    );
                     return new CreateEnvelopeResponse(senderView.Url, envelopeSummary.EnvelopeId);
                 default:
                     throw new ApplicationException("The Envelop Action is not supported");
