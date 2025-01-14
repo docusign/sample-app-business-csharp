@@ -11,11 +11,7 @@
                         </div>
                         <ng-container *ngIf="!(connectionStatus.isConnected$ | async)">
                             <a class="btn btn-connect" [routerLink]="['/admin']" [queryParams]="{type: 'UserAccount'}" translate>
-                                ConnectAccountButton
-                                <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
-                            </a>
-                            <a class="btn btn-connect btn-login" [routerLink]="['/admin']" [queryParams]="{type: 'TestAccount'}" translate>
-                                LoginWithTestAccountButton
+                                GetStarted
                                 <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
                             </a>
                             <p class="step-description" translate>WelcomeStepDescription</p>
