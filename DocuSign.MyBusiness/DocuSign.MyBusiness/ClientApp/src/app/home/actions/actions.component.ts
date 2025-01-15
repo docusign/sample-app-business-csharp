@@ -39,7 +39,12 @@ export class ActionsComponent implements OnInit {
             description: `Actions.UpdateProfileDescription`,
             actionTitle: `Actions.InitiateButton`,
             action: () => this.router.navigate(['/update-profile']),
-            featuresDescription: [`Actions.UpdateProfileFeature1`, `Actions.UpdateProfileFeature2`, `Actions.UpdateProfileFeature3`, `Actions.UpdateProfileFeature4`],
+            featuresDescription: [
+                `Actions.UpdateProfileFeature1`,
+                `Actions.UpdateProfileFeature2`,
+                `Actions.UpdateProfileFeature3`,
+                `Actions.UpdateProfileFeature4`
+            ],
             iconSrc: 'assets/img/ic-custom-three.png'
         },
         {

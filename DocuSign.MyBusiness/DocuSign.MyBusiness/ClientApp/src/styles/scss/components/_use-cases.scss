@@ -62,6 +62,10 @@
         opacity: 1;
     }
 
+    .step-container {
+      overflow: hidden;
+    }
+
     .options-list li {
         font-size: 12px;
         font-weight: 400;
@@ -79,11 +83,19 @@
     margin-top: 32px;
 
     form {
+      width: 100%;
+      @include media-breakpoint-up(lg) {
         width: 44%;
+      }
     }
 
     .step-container {
-        width: 100%;
+        @include media-breakpoint-down(md) {
+          width: 100%;
+          padding-left: 0;
+          padding-right: 0;
+        }
+
         .step-title {
             color: $black;
             opacity: 1;
@@ -143,7 +155,19 @@
 
 .use-case-wrapper {
     .buttons-container {
-        margin-bottom: 300px;
+      margin-bottom: 300px;
+
+      @include media-breakpoint-down(md) {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn {
+        @include media-breakpoint-down(md) {
+          margin-right: 0 !important;
+        }
+      }
     }
 
     .user-info-container {
@@ -198,7 +222,10 @@
     background-color: $gray-200;
     padding: 20px;
     margin-top: 15px;
-    display: inline-block;
+    text-wrap: balance;
+    @include media-breakpoint-up(md) {
+      display: inline-block;
+    }
 }
 
 .country-codes {
@@ -223,9 +250,28 @@
 .phone-wrapper {
     .input-wrapper {
         margin-left: 16px;
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        }
 
         .phone-input {
             width: 386px;
+          @include media-breakpoint-down(md) {
+            width: 100%;
+          }
         }
     }
+}
+
+.access-code-wrapper {
+  display: flex;
+  gap: 10px;
+
+  .d-inline-block {
+    flex: 1;
+  }
+
+  .form-control.access-code {
+    width: 100%;
+  }
 }
