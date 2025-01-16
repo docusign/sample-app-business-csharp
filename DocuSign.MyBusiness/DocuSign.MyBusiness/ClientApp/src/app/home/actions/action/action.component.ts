@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core'
 
 @Component({
+    standalone: false,
     selector: 'app-action',
     templateUrl: './action.component.html'
 })

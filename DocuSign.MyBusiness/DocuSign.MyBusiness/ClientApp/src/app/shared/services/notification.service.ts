@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ToastrService } from 'ngx-toastr'
-import { NotificationInfo, UseCaseNames } from './../models/shared.model'
+import { NotificationInfo, UseCaseNames } from '../models/shared.model'
 
 @Injectable({
     providedIn: 'root'

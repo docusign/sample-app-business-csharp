@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core'
 import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms'
 import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
-import { FormService } from './../../shared/services/form.service'
-import { UseCasesService } from './../shared/use-cases.service'
-import { HelperService } from './../../shared/services/helper.service'
-import { CustomQuoteInfo } from './../shared/use-cases.model'
-import { UseCaseNames } from './../../shared/models/shared.model'
-import { PHONE_REGEX } from './../../shared/constants/constants'
+import { FormService } from '../../shared/services/form.service'
+import { UseCasesService } from '../shared/use-cases.service'
+import { HelperService } from '../../shared/services/helper.service'
+import { CustomQuoteInfo } from '../shared/use-cases.model'
+import { UseCaseNames } from '../../shared/models/shared.model'
+import { PHONE_REGEX } from '../../shared/constants/constants'
+import { Country } from 'country-list-with-dial-code-and-flag'
 
 @Component({
+    standalone: false,
     selector: 'app-custom-quote',
     templateUrl: './custom-quote.component.html'
 })
@@ -23,7 +25,7 @@ export class CustomQuoteComponent implements OnInit {
         phoneNumber: new FormControl('', [Validators.required, Validators.pattern(PHONE_REGEX)])
     })
 
-    countryList = this.helperService.getCountriesList()
+    countryList: Country[]
 
     constructor(
         private router: Router,
@@ -31,7 +33,9 @@ export class CustomQuoteComponent implements OnInit {
         private toastr: ToastrService,
         private useCasesService: UseCasesService,
         private helperService: HelperService
-    ) {}
+    ) {
+        this.countryList = this.helperService.getCountriesList()
+    }
 
     ngOnInit(): void {}
 

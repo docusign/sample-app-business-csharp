@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core'
 import { HomeComponent } from './home.component'
 import { ActionsComponent } from './actions/actions.component'
 import { ActionComponent } from './actions/action/action.component'
-import { SharedModule } from './../shared/shared.module'
+import { SharedModule } from '../shared/shared.module'
 import { HomeRoutingModule } from './home-routing.module'
 
 @NgModule({
