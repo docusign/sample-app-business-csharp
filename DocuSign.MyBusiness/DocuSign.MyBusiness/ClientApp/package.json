@@ -5,7 +5,6 @@
     "ng": "ng",
     "start": "npm run lint && echo Starting && ng serve",
     "build": "npm run lint && ng build",
-    "build:ssr": "ng run DocuSign.MyHR:server:dev",
     "lint": "eslint \"**/*.ts\" --quiet --fix"
   },
   "private": true,
