@@ -4,14 +4,15 @@ import { SettingsService } from '../../shared/services/settings.service'
 import { forkJoin } from 'rxjs'
 import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
-import { FormService } from './../../shared/services/form.service'
-import { HelperService } from './../../shared/services/helper.service'
-import { UseCasesService } from './../shared/use-cases.service'
-import { TermsAndConditionsWithConractEnvelopModel } from './../shared/use-cases.model'
-import { EMAIL_REGEX } from './../../shared/constants/constants'
-import { UseCaseNames } from './../../shared/models/shared.model'
+import { FormService } from '../../shared/services/form.service'
+import { HelperService } from '../../shared/services/helper.service'
+import { UseCasesService } from '../shared/use-cases.service'
+import { TermsAndConditionsWithConractEnvelopModel } from '../shared/use-cases.model'
+import { EMAIL_REGEX } from '../../shared/constants/constants'
+import { UseCaseNames } from '../../shared/models/shared.model'
 
 @Component({
+    standalone: false,
     selector: 'app-terms-and-conditions',
     templateUrl: './terms-and-conditions.component.html'
 })

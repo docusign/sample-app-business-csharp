@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { SettingsService } from '../../shared/services/settings.service'
+import { SettingsService } from '../services/settings.service'
 
 @Component({
+    standalone: false,
     selector: 'app-user-info',
     templateUrl: './user-info.component.html'
 })

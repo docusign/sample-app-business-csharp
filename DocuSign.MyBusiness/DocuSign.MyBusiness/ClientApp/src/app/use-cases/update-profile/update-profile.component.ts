@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core'
 import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms'
 import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
-import { FormService } from './../../shared/services/form.service'
-import { UseCasesService } from './../shared/use-cases.service'
+import { FormService } from '../../shared/services/form.service'
+import { UseCasesService } from '../shared/use-cases.service'
 import { TranslateService } from '@ngx-translate/core'
-import { AuthorizeProfileInfo, UpdateCustomerProfileModel } from './../shared/use-cases.model'
+import { AuthorizeProfileInfo, UpdateCustomerProfileModel } from '../shared/use-cases.model'
 
 @Component({
+    standalone: false,
     selector: 'app-update-profile',
     templateUrl: './update-profile.component.html'
 })

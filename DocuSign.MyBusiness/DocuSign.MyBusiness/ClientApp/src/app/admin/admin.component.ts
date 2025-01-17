@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core'
 import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router'
 import { AdminService } from './shared/admin.service'
-import { SettingsService } from './../shared/services/settings.service'
+import { SettingsService } from '../shared/services/settings.service'
 import { Settings, Authorize, ConsentType, AccountConnect, AuthenticationType, Account } from './shared/admin.model'
 import { ToastrService } from 'ngx-toastr'
 import { TranslateService } from '@ngx-translate/core'
-import { FormService } from './../shared/services/form.service'
-import { SignalrService } from './../shared/services/signalr.service'
-import { HelperService } from './../shared/services/helper.service'
-import { UpdateStatusService } from './../shared/services/updateStatus.service'
-import { URL_REGEX, GUID_REGEX, PHONE_REGEX, EMAIL_REGEX } from './../shared/constants/constants'
-import { debounceTime } from 'rxjs'
+import { FormService } from '../shared/services/form.service'
+import { SignalrService } from '../shared/services/signalr.service'
+import { HelperService } from '../shared/services/helper.service'
+import { UpdateStatusService } from '../shared/services/updateStatus.service'
+import { URL_REGEX, GUID_REGEX, PHONE_REGEX, EMAIL_REGEX } from '../shared/constants/constants'
+import { debounceTime, Observable } from 'rxjs'
+import { Country } from 'country-list-with-dial-code-and-flag'
 
 @Component({
+    standalone: false,
     selector: 'app-admin',
     templateUrl: './admin.component.html'
 })
@@ -28,7 +30,7 @@ export class AdminComponent implements OnInit {
 
     accountsList = []
 
-    connectionStatus = this.updateStatusService.getConnectionStatus()
+    connectionStatus: { isConnected$: Observable<boolean>; isConsentGranted$: Observable<boolean> }
     adminForm: FormGroup = new FormGroup({
         basePath: new FormControl('', [Validators.required, Validators.pattern(URL_REGEX)]),
         baseUri: new FormControl('', [Validators.required, Validators.pattern(URL_REGEX)]),
@@ -43,7 +45,7 @@ export class AdminComponent implements OnInit {
         phoneNumber: new FormControl('', [Validators.required, Validators.pattern(PHONE_REGEX)])
     })
 
-    countryList = this.helperService.getCountriesList()
+    countryList: Country[]
     authenticationType = AuthenticationType.UserAccount
 
     environmentTypes = [
@@ -65,7 +67,10 @@ export class AdminComponent implements OnInit {
         private signalrService: SignalrService,
         private updateStatusService: UpdateStatusService,
         private helperService: HelperService
-    ) {}
+    ) {
+        this.connectionStatus = this.updateStatusService.getConnectionStatus()
+        this.countryList = this.helperService.getCountriesList()
+    }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {

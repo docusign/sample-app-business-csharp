@@ -1,14 +1,16 @@
 import { Component } from '@angular/core'
-import { SettingsService } from './../shared/services/settings.service'
-import { SignalrService } from './../shared/services/signalr.service'
-import { UpdateStatusService } from './../shared/services/updateStatus.service'
+import { SettingsService } from '../shared/services/settings.service'
+import { SignalrService } from '../shared/services/signalr.service'
+import { UpdateStatusService } from '../shared/services/updateStatus.service'
+import { Observable } from 'rxjs'
 
 @Component({
+    standalone: false,
     selector: 'app-home',
     templateUrl: './home.component.html'
 })
 export class HomeComponent {
-    connectionStatus = this.updateStatusService.getConnectionStatus()
+    connectionStatus: { isConnected$: Observable<boolean>; isConsentGranted$: Observable<boolean> }
     connectedUser = {
         name: '',
         email: '',
@@ -19,7 +21,9 @@ export class HomeComponent {
         private settingsService: SettingsService,
         private updateStatusService: UpdateStatusService,
         private signalrService: SignalrService
-    ) {}
+    ) {
+        this.connectionStatus = this.updateStatusService.getConnectionStatus()
+    }
 
     ngOnInit(): void {
         this.getConnectionStatus()
