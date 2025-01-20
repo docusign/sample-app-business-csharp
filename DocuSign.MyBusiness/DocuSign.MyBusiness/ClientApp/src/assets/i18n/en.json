@@ -89,7 +89,8 @@
     "Text3": "Details used for the Update Customer Profile Self-service use case.",
     "Step1": "<span><span class='title-bold'>Step 1: </span>The Business Sample App requires your consent to act on your behalf in the given Docusign account. Please choose the environment (Demo or Production) for the Docusign account you wish to connect.</span>",
     "Step2": "<span><span class='title-bold'>Step 2: </span>Select the account and user ID to connect to the Business Sample App. The information here can be checked against the Apps and Keys page in Admin for your Docusign account.",
-    "Step3": "<span><span class='title-bold'>Step 3: </span>Customer Profile"
+    "Step3": "<span><span class='title-bold'>Step 3: </span>Customer Profile",
+    "Text4": "Don't have Docusign yet? Get a Free Trial to try the integration!"
   },
   "ErrorMessages": {
     "GeneralErrors": {

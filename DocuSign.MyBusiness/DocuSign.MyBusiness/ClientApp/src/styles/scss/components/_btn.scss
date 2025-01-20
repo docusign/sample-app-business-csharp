@@ -78,6 +78,32 @@
     }
 }
 
+.btn-new {
+    margin-bottom: 40px;
+    background: $yellow;
+    box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+    color: $black;
+
+    &:hover,
+    &:focus {
+        background: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
+        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+        img {
+            filter: invert(100%);
+        }
+    }
+}
+
+.btn-connect-account {
+    background: $gray-800;
+    color: $white;
+    margin-top: 16px;
+    height: 41.6px;
+    &:hover{
+        background: $gray-600;
+    }
+}
+
 .logout-btn.authorize-btn {
     margin-top: 0;
     &:hover,
