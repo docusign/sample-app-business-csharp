@@ -4,6 +4,11 @@
         <section class="container content-section" id="actions">
             <a class="back-btn" href="/"><img class="arrow-right" src="assets/img/arrow-right.png" alt="" />Back</a>
             <h2 class="page-title admin-title" translate>Admin.Header</h2>
+            <div style="margin-bottom: 20px; display: flex; gap: 16px">
+              <button class="btn btn-connect" (click)="reset()" >Connect Your Docusign Account</button>
+              <button class="btn btn-connect" (click)="connectTestAccount()" >Use Our Demonstration Account</button>
+              <button class="btn btn-connect" (click)="startFreeTrial()" >Start Your Free Trial</button>
+            </div>
             <form [formGroup]="adminForm" [class.was-validated]="adminForm.invalid">
                 <div class="d-flex flex-wrap admin-form-container" [class.disabled]="authenticationType === 'TestAccount'">
                     <div class="col-md-6 col-lg-5 step-container">

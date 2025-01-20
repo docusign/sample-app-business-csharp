@@ -10,7 +10,7 @@
                             <h4 class="main-description" translate>WelcomeDescription</h4>
                         </div>
                         <ng-container *ngIf="!(connectionStatus.isConnected$ | async)">
-                            <a class="btn btn-connect" [routerLink]="['/admin']" [queryParams]="{type: 'UserAccount'}" translate>
+                            <a class="btn btn-connect" [routerLink]="['/admin']"  translate>
                                 GetStarted
                                 <img class="arrow-right" src="assets/img/arrow-right.png" alt="" />
                             </a>

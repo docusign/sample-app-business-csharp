@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms'
-import { Router, ActivatedRoute } from '@angular/router'
+import { Router } from '@angular/router'
 import { AdminService } from './shared/admin.service'
 import { SettingsService } from '../shared/services/settings.service'
 import { Settings, Authorize, ConsentType, AccountConnect, AuthenticationType, Account } from './shared/admin.model'
@@ -61,7 +61,6 @@ export class AdminComponent implements OnInit {
         private adminService: AdminService,
         private toastr: ToastrService,
         private router: Router,
-        private route: ActivatedRoute,
         private translate: TranslateService,
         private formService: FormService,
         private signalrService: SignalrService,
@@ -73,12 +72,6 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParams.subscribe((params) => {
-            this.authenticationType = AuthenticationType[params.type]
-            if (this.authenticationType === AuthenticationType.TestAccount) {
-                this.connectTestAccount()
-            }
-        })
         this.getConnectionStatus()
         this.executingAction = true
         this.setFormValues()
@@ -147,13 +140,7 @@ export class AdminComponent implements OnInit {
                 this.executingAction = false
                 this.router.navigate(['/'])
             },
-            error: (error: any) => {
-                this.toastr.error(`Please try again: ${error.error.Message}`, 'Something went wrong', {
-                    toastClass: 'error-message ngx-toastr custom-toastr',
-                    tapToDismiss: true
-                })
-                this.executingAction = false
-            }
+            error: this.handleError
         })
     }
 
@@ -194,17 +181,12 @@ export class AdminComponent implements OnInit {
                 this.executingAction = false
                 this.getConnectionStatus()
             },
-            error: (error: any) => {
-                this.toastr.error(`Please try again: ${error.error.Message}`, 'Something went wrong', {
-                    toastClass: 'error-message ngx-toastr custom-toastr',
-                    tapToDismiss: true
-                })
-                this.executingAction = false
-            }
+            error: this.handleError
         })
     }
 
     connectTestAccount(): void {
+        this.executingAction = true
         this.adminService.connect({ authenticationType: AuthenticationType.TestAccount }).subscribe({
             next: () => {
                 this.signalrService.connection.start().catch((error: any) => {
@@ -215,15 +197,7 @@ export class AdminComponent implements OnInit {
                 this.getConnectionStatus()
                 this.executingAction = false
             },
-            error: (error: any) => {
-                if (error.error) {
-                    this.toastr.error(`Please try again: ${error.error.Message}`, 'Something went wrong', {
-                        toastClass: 'error-message ngx-toastr custom-toastr',
-                        tapToDismiss: true
-                    })
-                }
-                this.executingAction = false
-            }
+            error: this.handleError
         })
     }
 
@@ -246,23 +220,7 @@ export class AdminComponent implements OnInit {
                 this.getConnectionStatus()
                 this.executingAction = false
             },
-            error: (error: any) => {
-                if (error.error?.errors) {
-                    Object.keys(error.error.errors).forEach((key) => {
-                        this.adminForm.controls[key].setErrors({ incorrect: true })
-                    })
-                    this.toastr.error('', this.translate.instant(`ErrorMessages.GeneralErrors.${error.error.generalErrorMessage}`), {
-                        toastClass: 'error-message ngx-toastr custom-toastr no-description',
-                        tapToDismiss: true
-                    })
-                } else {
-                    this.toastr.error(`Please try again: ${error.error?.Message}`, 'Something went wrong', {
-                        toastClass: 'error-message ngx-toastr custom-toastr',
-                        tapToDismiss: true
-                    })
-                }
-                this.executingAction = false
-            }
+            error: this.handleError
         })
     }
 
@@ -277,13 +235,7 @@ export class AdminComponent implements OnInit {
                 this.setFormValues()
                 this.executingAction = false
             },
-            error: (error: any) => {
-                this.toastr.error(`Please try again: ${error.error?.Message}`, 'Something went wrong', {
-                    toastClass: 'error-message ngx-toastr custom-toastr',
-                    tapToDismiss: true
-                })
-                this.executingAction = false
-            }
+            error: this.handleError
         })
     }
 
@@ -331,16 +283,76 @@ export class AdminComponent implements OnInit {
                 this.initialUserId = userId
                 this.executingAction = false
             },
-            error: (error: any) => {
-                this.toastr.error(`Please try again: ${error.error}`, 'Something went wrong', {
-                    toastClass: 'error-message ngx-toastr custom-toastr',
-                    tapToDismiss: true
+            error: (error) =>
+                this.handleError(error, () => {
+                    this.adminForm.patchValue({
+                        userId: this.initialUserId
+                    })
                 })
-                this.adminForm.patchValue({
-                    userId: this.initialUserId
+        })
+    }
+
+    reset(callBack?: () => void): void {
+        this.executingAction = true
+
+        this.connectionStatus.isConnected$.subscribe((isConnected) => {
+            if (isConnected) {
+                this.adminService.disconnect().subscribe({
+                    next: () => {
+                        this.getConnectionStatus()
+                        this.unauthorizeIfGranted(callBack)
+                    },
+                    error: this.handleError
                 })
-                this.executingAction = false
+            } else {
+                this.unauthorizeIfGranted(callBack)
             }
         })
+    }
+
+    startFreeTrial(): void {
+        this.reset(() => {
+            window['DSFreeTrial'].startFreeTrialCreation({
+                partnerIK: import.meta.env.NG_APP_PARTNER_IK,
+                loginRedirectUri: window.location.href
+            })
+        })
+    }
+
+    private unauthorizeIfGranted(callBack?: () => void): void {
+        this.connectionStatus.isConsentGranted$.subscribe((isConsentGranted) => {
+            if (isConsentGranted) {
+                this.adminService.unauthorize().subscribe({
+                    next: () => {
+                        this.executingAction = false
+                        this.getConnectionStatus()
+                        callBack?.()
+                    },
+                    error: this.handleError
+                })
+            } else {
+                this.executingAction = false
+                callBack?.()
+            }
+        })
+    }
+
+    private handleError(error: any, onError?: () => any): void {
+        if (error.error?.errors) {
+            Object.keys(error.error.errors).forEach((key) => {
+                this.adminForm.controls[key].setErrors({ incorrect: true })
+            })
+            this.toastr.error('', this.translate.instant(`ErrorMessages.GeneralErrors.${error.error.generalErrorMessage}`), {
+                toastClass: 'error-message ngx-toastr custom-toastr no-description',
+                tapToDismiss: true
+            })
+        } else {
+            this.toastr.error(`Please try again: ${error.error?.Message}`, 'Something went wrong', {
+                toastClass: 'error-message ngx-toastr custom-toastr',
+                tapToDismiss: true
+            })
+        }
+        onError?.()
+        this.executingAction = false
     }
 }

@@ -12,5 +12,6 @@
     "target": "es2022",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"]
-  }
+  },
+  "include": ["src", "src/.env.d.ts"]
 }
