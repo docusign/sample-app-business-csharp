@@ -1,8 +1,7 @@
 window.DSFreeTrial = {
     startFreeTrialCreation: ({ partnerIK, loginRedirectUri }) => {
-        console.log({ partnerIK, loginRedirectUri })
         const url = `https://account-d.docusign.com/oauth/auth?client_id=${partnerIK}&redirect_uri=${loginRedirectUri}&prompt=login`
-        const w = window.open(url, '_blank', 'width=600,height=400,left=500,top=300')
+        const w = window.open(url, '_blank', 'width=600,height=500,left=500,top=300')
         const stateInterval = setInterval(() => {
             try {
                 if (w.closed) {

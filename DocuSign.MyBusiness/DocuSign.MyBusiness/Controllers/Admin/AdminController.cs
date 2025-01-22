@@ -120,6 +120,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
                 settings.Template = TemplateNames.DefaultTemplateId;
                 settings.SignatureTypesDataSource = GetSignatureTypesDataSource(connectionSettings.AccountId);
                 settings.SignatureType = SignatureInfo.DefaultProviderName;
+                settings.IsConsentGranted = true;
                 _settingsRepository.Save(settings);
             }
             catch (ApplicationApiException ex)
@@ -134,6 +135,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
         [Route("/api/account/status")]
         public IActionResult GetStatus()
         {
+            var settings = _settingsRepository.Get();
             var model = new ResponseAccountStatusModel
             {
                 ConnectedUser = new ConnectedUserModel
@@ -142,8 +144,9 @@ namespace DocuSign.MyBusiness.Controllers.Admin
                     Email = _accountRepository.Email,
                     AccountName = _accountRepository.AccountName
                 },
-                IsConsentGranted = _settingsRepository.Get().IsConsentGranted,
-                IsConnected = HttpContext.User.Identity.IsAuthenticated
+                IsConsentGranted = settings.IsConsentGranted,
+                IsConnected = HttpContext.User.Identity.IsAuthenticated,
+                AuthenticationType = settings.AuthenticationType,
             };
             return Ok(model);
         }
@@ -159,6 +162,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             settings.SignatureType = null;
             settings.TemplatesDataSource = null;
             settings.SignatureTypesDataSource = null;
+            settings.AuthenticationType = AuthenticationType.None;
             _settingsRepository.Save(settings);
             return NoContent();
         }
