@@ -309,3 +309,19 @@
     color: $gray-400;
     opacity: 0.7;
 }
+
+.arrow-up-right {
+    margin-top: -2px;
+}
+
+.arrow-up-right-container {
+    border-radius: 100px;
+    padding: 2px;
+    background-color: $gray-850;
+    margin: -2px;
+    
+    img {
+        margin: 0;
+        height: 20px;
+    }
+}

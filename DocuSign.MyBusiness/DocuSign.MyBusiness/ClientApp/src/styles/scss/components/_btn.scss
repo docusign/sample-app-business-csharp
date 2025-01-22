@@ -86,11 +86,8 @@
 
     &:hover,
     &:focus {
-        background: linear-gradient(90deg, $yellow 4.94%, $purple 180.86%);
-        box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
-        img {
-            filter: invert(100%);
-        }
+        color: $black;
+        background: $yellow;
     }
 }
 
@@ -99,8 +96,25 @@
     color: $white;
     margin-top: 16px;
     height: 41.6px;
-    &:hover{
-        background: $gray-600;
+    &:hover,
+    &:focus {
+        background-color: $gray-825;
+        color: $white;
+    }
+}
+
+.btn-connect-account-margin {
+    margin-top: -3px;
+    margin-right: 32px;
+    margin-bottom: 12px;
+}
+
+.btn-free-trial-margin {
+    margin-top: -8px;
+    margin-bottom: 32px;
+    
+    span {
+        margin-right: 15px;
     }
 }
 

@@ -10,6 +10,8 @@
   "LoginWithDocuSignAccountButton": "Log in with your Docusign account",
   "LoginWithTestAccountButton": "Log in with a test account",
   "ConnectAccountButton": "Connect your Docusign Account",
+  "UseDemoAccountButton": "Use Our Demonstration Account",
+  "StartTrialAccountButton": "Start Your Free Trial",
   "GetStarted": "Get started - connect your Docusign account",
   "Note": "<strong>Note</strong><br> This sample<br> app is written<br>in <strong>C#</strong>",
   "SetupButton": "Setup",
