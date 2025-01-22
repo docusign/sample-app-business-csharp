@@ -125,6 +125,11 @@ namespace DocuSign.MyBusiness
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
+                spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions {
+                    OnPrepareResponse = context => {
+                        context.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store");
+                    }
+                };
 
                 if (env.IsDevelopment())
                 {

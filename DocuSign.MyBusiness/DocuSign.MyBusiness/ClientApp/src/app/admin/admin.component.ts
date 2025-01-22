@@ -250,6 +250,7 @@ export class AdminComponent implements OnInit {
                 isConnected: payload.isConnected,
                 isConsentGranted: payload.isConsentGranted
             })
+            this.authenticationType = payload.authenticationType
         })
     }
 
@@ -295,17 +296,17 @@ export class AdminComponent implements OnInit {
     reset(callBack?: () => void): void {
         this.executingAction = true
 
-        this.connectionStatus.isConnected$.subscribe((isConnected) => {
-            if (isConnected) {
+        this.settingsService.getConnectionStatus().subscribe((payload) => {
+            if (payload.isConnected) {
                 this.adminService.disconnect().subscribe({
                     next: () => {
                         this.getConnectionStatus()
-                        this.unauthorizeIfGranted(callBack)
+                        this.unauthorizeIfGranted(payload.isConsentGranted, callBack)
                     },
                     error: this.handleError
                 })
             } else {
-                this.unauthorizeIfGranted(callBack)
+                this.unauthorizeIfGranted(payload.isConsentGranted, callBack)
             }
         })
     }
@@ -319,22 +320,20 @@ export class AdminComponent implements OnInit {
         })
     }
 
-    private unauthorizeIfGranted(callBack?: () => void): void {
-        this.connectionStatus.isConsentGranted$.subscribe((isConsentGranted) => {
-            if (isConsentGranted) {
-                this.adminService.unauthorize().subscribe({
-                    next: () => {
-                        this.executingAction = false
-                        this.getConnectionStatus()
-                        callBack?.()
-                    },
-                    error: this.handleError
-                })
-            } else {
-                this.executingAction = false
-                callBack?.()
-            }
-        })
+    private unauthorizeIfGranted(isConsentGranted: boolean, callBack?: () => void): void {
+        if (isConsentGranted) {
+            this.adminService.unauthorize().subscribe({
+                next: () => {
+                    this.executingAction = false
+                    this.getConnectionStatus()
+                    callBack?.()
+                },
+                error: this.handleError
+            })
+        } else {
+            this.executingAction = false
+            callBack?.()
+        }
     }
 
     private handleError(error: any, onError?: () => any): void {
