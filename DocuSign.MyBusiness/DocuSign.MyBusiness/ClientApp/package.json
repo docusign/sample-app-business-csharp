@@ -24,7 +24,6 @@
     "@eslint/js": "^9.18.0",
     "@microsoft/signalr": "^8.0.7",
     "@ng-select/ng-select": "^14.2.0",
-    "@ngx-env/builder": "^19.0.4",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^16.0.1",
     "@popperjs/core": "^2.11.8",

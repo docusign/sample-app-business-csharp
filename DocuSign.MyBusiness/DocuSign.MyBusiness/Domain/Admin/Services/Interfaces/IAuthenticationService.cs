@@ -13,5 +13,6 @@ namespace DocuSign.MyBusiness.Domain.Admin.Services.Interfaces
         void AuthenticateForProfileManagement(string login, string password);
         string PrePopulateUserId(string basePath, string code);
         List<ResponseGetAccountsModel> GetAccounts(string basePath, string userId);
+        string FreeTrialPartnerIK();
     }
 }

@@ -223,12 +223,24 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             return Ok(model);
         }
 
+        [HttpPost]
+        [Route("/api/account/free-trial")]
+        public IActionResult InitiateFreeTrial() 
+        {
+            var settings = _settingsRepository.Get();
+            settings.AuthenticationType = AuthenticationType.FreeTrial;
+            _settingsRepository.Save(settings);
+            
+            return Ok(new { PartnerIK = _authenticationService.FreeTrialPartnerIK() });    
+        }
+
         private AccountConnectionSettings CreateConnectionSettings(RequestAccountConnectModel model)
         {
             AccountConnectionSettings connectionSettings = null;
             switch (model.AuthenticationType)
             {
                 case AuthenticationType.UserAccount:
+                case AuthenticationType.FreeTrial:
                     connectionSettings = new AccountConnectionSettings
                     {
                         BasePath = model.BasePath,

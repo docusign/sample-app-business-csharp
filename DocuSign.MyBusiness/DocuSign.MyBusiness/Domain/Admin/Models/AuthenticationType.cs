@@ -9,6 +9,7 @@ namespace DocuSign.MyBusiness.Domain.Admin.Models
         None = 0,
         UserAccount = 1,
         TestAccount = 2,
+        FreeTrial = 3,
     }
 }
 

@@ -204,7 +204,7 @@ export class AdminComponent implements OnInit {
     connect(): void {
         this.executingAction = true
         const accontConnect: AccountConnect = {
-            authenticationType: AuthenticationType.UserAccount,
+            authenticationType: this.authenticationType,
             basePath: this.adminForm.value.basePath,
             baseUri: this.adminForm.value.baseUri,
             accountId: this.adminForm.value.accountId,
@@ -251,6 +251,7 @@ export class AdminComponent implements OnInit {
                 isConsentGranted: payload.isConsentGranted
             })
             this.authenticationType = payload.authenticationType
+            console.log({ payload })
         })
     }
 
@@ -312,10 +313,18 @@ export class AdminComponent implements OnInit {
     }
 
     startFreeTrial(): void {
+        this.executingAction = true
+
         this.reset(() => {
-            window['DSFreeTrial'].startFreeTrialCreation({
-                partnerIK: import.meta.env.NG_APP_PARTNER_IK,
-                loginRedirectUri: window.location.href
+            this.adminService.initiateFreeTrial().subscribe({
+                next: (payload) => {
+                    this.getConnectionStatus()
+                    window['DSFreeTrial'].startFreeTrialCreation({
+                        partnerIK: payload.partnerIK,
+                        loginRedirectUri: window.location.href
+                    })
+                },
+                error: this.handleError
             })
         })
     }
