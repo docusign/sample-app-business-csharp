@@ -78,6 +78,46 @@
     }
 }
 
+.btn-new {
+    margin-bottom: 40px;
+    background: $yellow;
+    box-shadow: 0px 2px 20px 0px rgba(83, 108, 116, 0.1);
+    color: $black;
+
+    &:hover,
+    &:focus {
+        color: $black;
+        background: $yellow;
+    }
+}
+
+.btn-connect-account {
+    background: $gray-800;
+    color: $white;
+    margin-top: 16px;
+    height: 41.6px;
+    &:hover,
+    &:focus {
+        background-color: $gray-825;
+        color: $white;
+    }
+}
+
+.btn-connect-account-margin {
+    margin-top: -3px;
+    margin-right: 32px;
+    margin-bottom: 12px;
+}
+
+.btn-free-trial-margin {
+    margin-top: -8px;
+    margin-bottom: 52px;
+    
+    span {
+        margin-right: 15px;
+    }
+}
+
 .logout-btn.authorize-btn {
     margin-top: 0;
     &:hover,
