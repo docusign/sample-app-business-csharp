@@ -4,15 +4,15 @@
         <section class="container content-section" id="actions">
             <a class="back-btn" href="/"><img class="arrow-right" src="assets/img/arrow-right.png" alt="" />Back</a>
             <h2 class="page-title admin-title" translate>Admin.Header</h2>
-            <div cass="d-flex flex-wrap buttons-container">
+            <div>
               <button class="btn btn-sm btn-connect-account btn-connect-account-margin" (click)="reset()" translate>ConnectAccountButton<img class="arrow-up-right" src="assets/img/arrow-up-right.png" alt="" /></button>
               <button class="btn btn-sm btn-connect-account btn-connect-account-margin" (click)="connectTestAccount()" translate>UseDemoAccountButton<img class="arrow-up-right" src="assets/img/arrow-up-right.png" alt="" /></button>
             </div>
-            
+
             <div class="step-container">
                 <span class="step-title title-bold pre-step-title" translate>AdminForm.GetFreeTrial</span>
             </div>
-            <div cass="d-flex flex-wrap buttons-container">
+            <div>
               <button class="btn btn-new btn-free-trial-margin" (click)="startFreeTrial()"><span translate>StartTrialAccountButton</span>
                 <span class="arrow-up-right-container"><img src="assets/img/arrow-up-right.png" alt="" /></span></button>
             </div>
@@ -29,6 +29,7 @@
                                     type="radio"
                                     name="basePath"
                                     (change)="setBasePath(environment.url)"
+                                    [checked]="adminForm.get('basePath').value === environment.url"
                                 />
                                 <label [for]="environment.title" class="radio-label">
                                     {{ environment.title }}</label
