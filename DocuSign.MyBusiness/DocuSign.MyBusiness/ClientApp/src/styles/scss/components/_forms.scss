@@ -179,17 +179,17 @@ input[type="radio"] {
       }
     }
 
-    &:not(:disabled):focus + label:before,
-    &:not(:disabled):hover + label:before,
-    &:not(:disabled):checked + label:before {
+    &:focus + label:before,
+    &:hover + label:before,
+    &:checked + label:before {
       background: $black;
       border-color: $yellow;
       outline: none;
     }
 
-    &:not(:disabled):focus + label:after,
-    &:not(:disabled):hover + label:after,
-    &:not(:disabled):checked + label:after {
+    &:focus + label:after,
+    &:hover + label:after,
+    &:checked + label:after {
       opacity: 1;
     }
 
@@ -208,7 +208,6 @@ input[type="radio"] {
       box-shadow: none;
       pointer-events: none;
       background-color: $gray-500;
-      opacity: 1;
     }
   }
 }
