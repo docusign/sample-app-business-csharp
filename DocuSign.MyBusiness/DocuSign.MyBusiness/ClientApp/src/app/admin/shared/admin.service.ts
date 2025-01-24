@@ -49,4 +49,12 @@ export class AdminService {
             })
         })
     }
+
+    initiateFreeTrial(): Observable<any> {
+        return this.http.post<any>(this.baseUrl + 'api/account/free-trial', null, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        })
+    }
 }

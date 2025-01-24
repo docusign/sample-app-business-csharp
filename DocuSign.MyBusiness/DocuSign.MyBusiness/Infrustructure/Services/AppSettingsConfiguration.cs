@@ -24,7 +24,8 @@ namespace DocuSign.MyBusiness.Infrustructure.Services
                     BaseUri = configuration["DocuSign:TestAccountConnectionSettings:BaseUri"],
                     UserId = configuration["DocuSign:TestAccountConnectionSettings:UserId"],
                     AccountId = configuration["DocuSign:TestAccountConnectionSettings:AccountId"],
-                }
+                },
+                PartnerIK = configuration["DocuSign:PartnerIK"]
             };
             CustomerProfile = new AppConfigurationCustomerProfile
             {

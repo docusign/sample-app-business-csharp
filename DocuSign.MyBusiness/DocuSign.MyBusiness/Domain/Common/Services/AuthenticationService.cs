@@ -172,5 +172,10 @@ namespace DocuSign.MyBusiness.Domain.Common.Services
                     throw new AuthenticationException(ApiErrorDetails.InvalidAuthentication);
             }
         }
+
+        public string FreeTrialPartnerIK()
+        {
+            return _appConfiguration.DocuSign.PartnerIK;
+        }
     }
 }

@@ -5,7 +5,8 @@ export enum ConsentType {
 
 export enum AuthenticationType {
     UserAccount = 'UserAccount',
-    TestAccount = 'TestAccount'
+    TestAccount = 'TestAccount',
+    FreeTrial = 'FreeTrial'
 }
 
 export interface AccountConnect {

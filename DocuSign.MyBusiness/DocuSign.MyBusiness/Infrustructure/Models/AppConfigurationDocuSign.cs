@@ -10,6 +10,6 @@
         public string RSAPrivateKeyFile { get; set; }
         public int JWTLifeTime { get; set; }
         public AppSettingTestAccount TestAccountConnectionSettings { get; set; }
-
+        public string PartnerIK { get; set; } 
     }
 }
