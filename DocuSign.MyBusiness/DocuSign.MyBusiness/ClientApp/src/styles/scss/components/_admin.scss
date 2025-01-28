@@ -1,4 +1,5 @@
 .admin-container {
+
     .content,
     .header {
         background: $black;
@@ -32,6 +33,7 @@
     font-weight: 700;
     line-height: normal;
     text-decoration-line: underline;
+
     img {
         transform: scaleX(-1);
         margin-right: 8px;
@@ -143,7 +145,7 @@
     &.full-name {
         width: 530px;
     }
-    
+
     &.phone {
         margin-top: 40px;
         width: 353px;
@@ -263,6 +265,7 @@
 
 .country-codes.admin {
     width: 160px;
+
     label {
         color: $gray-400;
         opacity: 0.7;
@@ -296,9 +299,11 @@
         &::-webkit-scrollbar {
             width: 10px;
         }
+
         &::-webkit-scrollbar-track {
             background-color: $black;
         }
+
         &::-webkit-scrollbar-thumb {
             background-color: $gray-400;
         }
@@ -319,9 +324,50 @@
     padding: 2px;
     background-color: $gray-850;
     margin: -2px;
-    
+
     img {
         margin: 0;
         height: 20px;
+    }
+}
+
+.text-helper-expand {
+    display: flex;
+    padding: 24px;
+    align-items: flex-start;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid var(--Grey-dark, $gray-500);
+    background: $black-10;
+    margin-bottom: 32px;
+    color: $gray-450;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    .info-img {
+        margin-top: -1rem;
+        margin-left: -1rem;
+    }
+
+    span {
+        align-self: start;
+    }
+    .main-text {
+        min-width: 997px;
+        .big-text {
+            padding-top: 8px;
+        }
+    }
+
+    .expand-button {
+        height: 100%;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        color: var(--Grey, $gray-200);
+        padding-left: 6rem;
+        cursor: pointer;
+        min-width: 194px;
     }
 }
