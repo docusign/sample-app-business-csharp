@@ -92,7 +92,11 @@
     "Step1": "<span><span class='title-bold'>Step 1: </span>The Business Sample App requires your consent to act on your behalf in the given Docusign account. Please choose the environment (Demo or Production) for the Docusign account you wish to connect.</span>",
     "Step2": "<span><span class='title-bold'>Step 2: </span>Select the account and user ID to connect to the Business Sample App. The information here can be checked against the Apps and Keys page in Admin for your Docusign account.",
     "Step3": "<span><span class='title-bold'>Step 3: </span>Customer Profile",
-    "GetFreeTrial": "Don't have Docusign yet? Get a Free Trial to try the integration!"
+    "GetFreeTrial": "Don't have Docusign yet? Get a Free Trial to try the integration!",
+    "ShortHelpText": "Easily integrate your account using one of the methods below, each designed to suit different needs and technical environments.",
+    "FullHelpText": " ●      With Digital Referral as a natural accompaniment to ISV eSignature integrations and in fact becoming obligatory for new ISV eSignature integrations entering the App Review process, it is highly valuable to get a sample demonstration of Digital Referral implementation. The Business sample app is focused on ISV integration and would serve as the best vehicle for demonstrating the functionality as well as the technical implementation of Digital Referral.  This PRD serves as the guiding document for making this change to the existing Business sample application.  In addition, the scope of work would also subsume the required API change for the Sender View use in the Business sample app.",
+    "ViewMore": "View more",
+    "ViewLess": "View less"
   },
   "ErrorMessages": {
     "GeneralErrors": {

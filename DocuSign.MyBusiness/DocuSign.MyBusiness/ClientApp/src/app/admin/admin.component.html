@@ -4,6 +4,22 @@
         <section class="container content-section" id="actions">
             <a class="back-btn" href="/"><img class="arrow-right" src="assets/img/arrow-right.png" alt="" />Back</a>
             <h2 class="page-title admin-title" translate>Admin.Header</h2>
+            <div class="text-helper-expand">
+                <span>
+                    <img src="assets/img/info.png" class="info-img" alt="" />
+                </span>
+                <span class="main-text" translate>AdminForm.ShortHelpText 
+                    <div class="big-text" *ngIf="isExpandedText" translate>AdminForm.FullHelpText</div>
+                </span>
+                <span *ngIf="!isExpandedText" class="expand-button" (click)="changeExpandSection()">
+                    <span translate>AdminForm.ViewMore</span>
+                    <img src="assets/img/chevron-down-m.png" alt="" />
+                </span>
+                <span *ngIf="isExpandedText" class="expand-button" (click)="changeExpandSection()">
+                    <span translate>AdminForm.ViewLess</span>
+                    <img src="assets/img/chevron-up-m.png" class="expandable" alt="" />
+                </span>
+            </div>
             <div>
               <button class="btn btn-sm btn-connect-account btn-connect-account-margin" (click)="reset()" translate>ConnectAccountButton<img class="arrow-up-right" src="assets/img/arrow-up-right.png" alt="" /></button>
               <button class="btn btn-sm btn-connect-account btn-connect-account-margin" (click)="connectTestAccount()" translate>UseDemoAccountButton<img class="arrow-up-right" src="assets/img/arrow-up-right.png" alt="" /></button>

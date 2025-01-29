@@ -55,6 +55,7 @@ export class AdminComponent implements OnInit {
 
     initialUserId = null
     isFirstLoad = true
+    isExpandedText: boolean
 
     constructor(
         private settingsService: SettingsService,
@@ -327,6 +328,10 @@ export class AdminComponent implements OnInit {
                 error: this.handleError
             })
         })
+    }
+
+    changeExpandSection(): void {
+        this.isExpandedText = !this.isExpandedText;
     }
 
     private unauthorizeIfGranted(isConsentGranted: boolean, callBack?: () => void): void {
