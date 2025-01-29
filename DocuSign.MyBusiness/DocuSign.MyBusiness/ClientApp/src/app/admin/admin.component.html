@@ -12,12 +12,12 @@
                     <div class="big-text" *ngIf="isExpandedText" translate>AdminForm.FullHelpText</div>
                 </span>
                 <span *ngIf="!isExpandedText" class="expand-button" (click)="changeExpandSection()">
-                    View more
+                    <span translate>AdminForm.ViewMore</span>
                     <img src="assets/img/chevron-down-m.png" alt="" />
                 </span>
                 <span *ngIf="isExpandedText" class="expand-button" (click)="changeExpandSection()">
-                    View less
-                    <img src="assets/img/chevron-up-m.png" alt="" />
+                    <span translate>AdminForm.ViewLess</span>
+                    <img src="assets/img/chevron-up-m.png" class="expandable" alt="" />
                 </span>
             </div>
             <div>
