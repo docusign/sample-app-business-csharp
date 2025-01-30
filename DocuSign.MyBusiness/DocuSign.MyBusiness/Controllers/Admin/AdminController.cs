@@ -162,7 +162,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             settings.SignatureType = null;
             settings.TemplatesDataSource = null;
             settings.SignatureTypesDataSource = null;
-            settings.AuthenticationType = AuthenticationType.None;
+            settings.AuthenticationType = AuthenticationType.UserAccount;
             _settingsRepository.Save(settings);
             return NoContent();
         }

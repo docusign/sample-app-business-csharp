@@ -6,7 +6,6 @@ namespace DocuSign.MyBusiness.Domain.Admin.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum AuthenticationType
     {
-        None = 0,
         UserAccount = 1,
         TestAccount = 2,
         FreeTrial = 3,
