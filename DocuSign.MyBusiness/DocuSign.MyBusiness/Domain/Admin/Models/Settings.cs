@@ -14,7 +14,7 @@ namespace DocuSign.MyBusiness.Domain.Admin.Models
             UserProfile = new UserProfileSettings();
         }
 
-        public AuthenticationType AuthenticationType { get; set; }
+        public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.UserAccount;
         public string BasePath { get; set; }
         public string BaseUri { get; set; }
         public string AccountId { get; set; }

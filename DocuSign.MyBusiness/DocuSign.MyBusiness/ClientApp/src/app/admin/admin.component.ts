@@ -252,7 +252,6 @@ export class AdminComponent implements OnInit {
                 isConsentGranted: payload.isConsentGranted
             })
             this.authenticationType = payload.authenticationType
-            console.log({ payload })
         })
     }
 
@@ -331,7 +330,7 @@ export class AdminComponent implements OnInit {
     }
 
     changeExpandSection(): void {
-        this.isExpandedText = !this.isExpandedText;
+        this.isExpandedText = !this.isExpandedText
     }
 
     private unauthorizeIfGranted(isConsentGranted: boolean, callBack?: () => void): void {
