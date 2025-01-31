@@ -386,3 +386,75 @@
         }
     }
 }
+
+@include media-breakpoint-down(xl) {
+    .text-helper-expand > span {
+        display: flex;
+        align-items: center; /* Center content vertically within each span */
+    }
+
+    .text-helper-expand > span:nth-child(2) {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        box-sizing: border-box;
+        max-width: 80%;
+        min-width: 80%;
+        .main-text {
+            display: block;
+        }
+    }
+
+    .text-helper-expand {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        .main-text {
+            min-width: auto;
+
+            span {
+                max-width: 80%;
+                min-width: 80%;
+            }
+
+            div {
+                max-width: 80%;
+                min-width: 80%;
+                display: block;
+            }
+        }
+
+        .expand-button {
+            flex: 0 0 auto;
+            /* Allow these spans to take only the space they need */
+            margin-right: 10px;
+            /* Add some space between the first two spans */
+            flex: 1;
+            padding-bottom: 16px;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .admin-buttons-sm-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .text-helper-expand {
+        display: flex;
+        flex-wrap: wrap; /* Allow items to wrap to the next line */
+        align-items: center; /* Align items vertically in the center */
+    }
+
+
+    .text-helper-expand > span:nth-child(3),
+    .text-helper-expand > span:nth-child(4) {
+        width: 100%; /* Make these spans take full width in a new row */
+        margin-top: 10px; /* Add some space above the new row */
+        flex: 2;
+    }
+}
