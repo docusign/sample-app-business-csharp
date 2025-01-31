@@ -8,7 +8,8 @@
                 <span>
                     <img src="assets/img/info.png" class="info-img" alt="" />
                 </span>
-                <span class="main-text" translate>AdminForm.ShortHelpText 
+                <span class="main-text">
+                    <span translate>AdminForm.ShortHelpText</span>
                     <div class="big-text" *ngIf="isExpandedText" translate>AdminForm.FullHelpText</div>
                 </span>
                 <span *ngIf="!isExpandedText" class="expand-button" (click)="changeExpandSection()">
@@ -20,15 +21,15 @@
                     <img src="assets/img/chevron-up-m.png" class="expandable" alt="" />
                 </span>
             </div>
-            <div>
+            <div class="admin-buttons-sm-center">
               <button class="btn btn-sm btn-connect-account btn-connect-account-margin" (click)="reset()" translate>ConnectAccountButton<img class="arrow-up-right" src="assets/img/arrow-up-right.png" alt="" /></button>
               <button class="btn btn-sm btn-connect-account btn-connect-account-margin" (click)="connectTestAccount()" translate>UseDemoAccountButton<img class="arrow-up-right" src="assets/img/arrow-up-right.png" alt="" /></button>
             </div>
 
-            <div class="step-container">
+            <div class="step-container admin-buttons-sm-center">
                 <span class="step-title title-bold pre-step-title" translate>AdminForm.GetFreeTrial</span>
             </div>
-            <div>
+            <div class="admin-buttons-sm-center">
               <button class="btn btn-new btn-free-trial-margin" (click)="startFreeTrial()"><span translate>StartTrialAccountButton</span>
                 <span class="arrow-up-right-container"><img src="assets/img/arrow-up-right.png" alt="" /></span></button>
             </div>
