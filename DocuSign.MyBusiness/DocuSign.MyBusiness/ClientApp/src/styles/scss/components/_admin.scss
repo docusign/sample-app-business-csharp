@@ -387,7 +387,7 @@
     }
 }
 
-@media (max-width: 1376px) {
+@include media-breakpoint-down(xl) {
     .text-helper-expand > span {
         display: flex;
         align-items: center; /* Center content vertically within each span */
@@ -435,7 +435,7 @@
     }
 }
 
-@media (max-width: 576px) {
+@include media-breakpoint-down(sm) {
     .admin-buttons-sm-center {
         display: flex;
         flex-direction: column;
