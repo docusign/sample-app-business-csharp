@@ -10,7 +10,7 @@
   "LoginWithDocuSignAccountButton": "Log in with your Docusign account",
   "LoginWithTestAccountButton": "Log in with a test account",
   "ConnectAccountButton": "Connect your Docusign Account",
-  "Note": "<strong>Note</strong><br> This sample<br> app is written<br>in <strong>C#</strong>",
+  "Note": "<strong>Note</strong><br> This sample<br> app is written<br>in <strong>C#</strong> and uses <strong>JWT</strong> and <strong>ACG</strong> authentication.",
   "SetupButton": "Setup",
   "VSExtentionLink": "Get the Visual Studio Extension",
   "VSCodeExtentionLink": "Get the Visual Studio Code Extension",
