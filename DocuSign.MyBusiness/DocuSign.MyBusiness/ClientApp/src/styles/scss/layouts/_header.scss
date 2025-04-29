@@ -35,7 +35,7 @@
     .navbar-brand-image {
         margin-right: 4px;
         img {
-            width: 50%;
+          height: 60px;
             margin-left: -20px;
         }
     }
@@ -80,7 +80,8 @@
         }
 
         a {
-            color: $white;
+          color: $white;
+          border-radius: 24px;
         }
     }
 
@@ -89,7 +90,7 @@
         @include media-breakpoint-up(lg) {
             opacity: 1;
             padding: 7px 20px;
-            border-radius: 24px;
+
             height: 32px;
         }
 
@@ -108,4 +109,10 @@
             }
         }
     }
+
+  .navbar-buttons {
+    @include media-breakpoint-down(md) {
+      margin-left: -50%;
+    }
+  }
 }

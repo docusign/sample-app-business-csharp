@@ -21,6 +21,11 @@
 }
 
 .buttons-group {
+  @include media-breakpoint-down(md) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
     .btn {
         &:not(:last-child) {
             &:not(.btn-sm):not(.btn-lg) {
@@ -28,6 +33,10 @@
                 //margin-bottom: 10px;
                 @include media-breakpoint-up(lg) {
                     margin-right: 15px;
+                }
+                @include media-breakpoint-down(md) {
+                  display: block;
+                  width: 100%;
                 }
             }
         }
@@ -89,6 +98,11 @@
 .btn-login.btn-connect {
     border: 1.5px solid $white;
     margin-top: 16px;
+
+  @include media-breakpoint-between(sm, lg) {
+    margin-top: 35px;
+    margin-left: 16px;
+  }
 }
 
 .authorize-btn-as-admin {

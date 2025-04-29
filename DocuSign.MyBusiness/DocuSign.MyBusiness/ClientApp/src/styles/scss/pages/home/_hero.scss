@@ -4,15 +4,19 @@
 
 .hero-section {
     &.hero-home {
-        height: 630px;
+        height: 940px;
         padding-top: 130px;
         background: $black;
-        @include media-breakpoint-down(lg) {
-            height: 940px;
+        @include media-breakpoint-up(lg) {
+          height: 630px;
         }
 
         &.small-container {
             height: 450px;
+          @include media-breakpoint-down(md) {
+            height: auto;
+            padding-bottom: 20px;
+          }
         }
 
         .container-fluid {
@@ -103,11 +107,11 @@
 
     @include media-breakpoint-down(lg) {
         height: 160px;
-        padding: 10px;
+        padding: 10px 60px 10px 10px;
     }
 
     @include media-breakpoint-down(md) {
-        height: 200px;
+        height: auto;
     }
 
     .info-icon {
@@ -198,5 +202,13 @@
         line-height: 22px;
         margin-top: 48px;
         color: $gray-400;
+    }
+
+    .btn.btn-connect {
+      @include media-breakpoint-down(sm) {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+      }
     }
 }
