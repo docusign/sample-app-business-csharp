@@ -1,13 +1,13 @@
 <header class="header" [class.header-home]="isHomePage$ | async" role="banner">
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light p-0 align-items-lg-end justify-content-lg-between">
+        <nav class="navbar navbar-expand-sm navbar-light p-0 align-items-sm-end justify-content-sm-between">
             <a class="navbar-brand d-inline-flex align-items-center p-0" [routerLink]="['']" routerLinkActive="active" translate>
                 <span class="navbar-brand-image d-inline-block">
                     <img [src]="style === 'black' ? 'assets/img/logo-text-white.png' : 'assets/img/logo-text-black.png'" alt="" />
                 </span>
             </a>
-            <div class="align-self-lg-center">
-                <ul class="navbar-nav">
+            <div class="align-self-sm-center navbar-buttons">
+                <ul class="navbar-nav flex-row">
                     <li class="nav-item">
                         <a class="nav-link" href="https://github.com/docusign/sample-app-business-csharp" target="blank" translate>
                             GitHubSource

@@ -14,6 +14,25 @@ import { URL_REGEX, GUID_REGEX, PHONE_REGEX, EMAIL_REGEX } from '../shared/const
 import { debounceTime, Observable } from 'rxjs'
 import { Country } from 'country-list-with-dial-code-and-flag'
 
+declare global {
+    interface Window {
+        DSDigitalSignup: {
+            startSignup: (
+                firstName?: string,
+                lastName?: string,
+                email?: string,
+                phone?: string,
+                partnerIK?: string,
+                loginRedirectUri?: string,
+                locale?: string
+            ) => void
+            registerSignupActivationCallback: (callback: (event) => void) => void
+            registerSignupPopupCloseCallback: (callback: (event) => void) => void
+            notifySignupActivation: (autoCloseWindow: boolean) => void
+        }
+    }
+}
+
 @Component({
     standalone: false,
     selector: 'app-admin',
@@ -56,6 +75,7 @@ export class AdminComponent implements OnInit {
     initialUserId = null
     isFirstLoad = true
     isExpandedText: boolean
+    docusignScriptLoaded = false
 
     constructor(
         private settingsService: SettingsService,
@@ -313,19 +333,28 @@ export class AdminComponent implements OnInit {
     }
 
     startFreeTrial(): void {
-        this.executingAction = true
+        window.DSDigitalSignup.registerSignupActivationCallback(function (event) {
+            console.log('Signup activation callback event:', event)
+        })
 
-        this.reset(() => {
-            this.adminService.initiateFreeTrial().subscribe({
-                next: (payload) => {
-                    this.getConnectionStatus()
-                    window['DSFreeTrial'].startFreeTrialCreation({
-                        partnerIK: payload.partnerIK,
-                        loginRedirectUri: window.location.href
-                    })
-                },
-                error: this.handleError
-            })
+        window.DSDigitalSignup.registerSignupPopupCloseCallback(function (event) {
+            console.log('Signup activation close callback event:', event)
+        })
+
+        this.adminService.initiateFreeTrial().subscribe({
+            next: (payload) => {
+                this.getConnectionStatus()
+                window.DSDigitalSignup.startSignup(
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    payload.partnerIK,
+                    window.location.href,
+                    undefined
+                )
+            },
+            error: this.handleError
         })
     }
 

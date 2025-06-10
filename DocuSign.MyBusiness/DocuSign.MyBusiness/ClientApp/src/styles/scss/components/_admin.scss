@@ -80,7 +80,7 @@
 }
 
 .step-container {
-    padding: 24px;
+  padding: 24px;
 
     .step-title {
         color: $gray-400;
@@ -112,6 +112,16 @@
     }
 }
 
+.phone-wrapper {
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+
+    .input-wrapper {
+      margin-left: 0 !important;
+    }
+  }
+}
+
 .form-control-input {
     border-radius: 4px;
     border-color: $gray-500 !important;
@@ -135,7 +145,10 @@
 
     &.account-id,
     &.user-id {
+      width: 100%;
+      @include media-breakpoint-up(md) {
         width: 330px;
+      }
     }
 
     &.disabled {
@@ -143,12 +156,19 @@
     }
 
     &.full-name {
+      width: 314px;
+      @include media-breakpoint-up(md) {
         width: 530px;
+      }
     }
 
     &.phone {
-        margin-top: 40px;
+      margin-top: 20px;
+      width: 314px;
+      @include media-breakpoint-up(md) {
         width: 353px;
+        margin-top: 40px;
+      }
     }
 }
 
