@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -46,21 +47,35 @@ namespace DocuSign.MyBusiness.Controllers.Admin
         [Route("/api/account/consent/obtain")]
         public IActionResult ObtainConsent([FromBody] RequestAccountAuthorizeModel model)
         {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            if (!TryNormalizeUri(model.BasePath, out var normalizedBasePath))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidBasePath,
+                    model,
+                    m => m.BasePath));
+            }
+
             var settings = _settingsRepository.Get();
-            settings.BasePath = model.BasePath;
+            settings.BasePath = normalizedBasePath;
             _settingsRepository.Save(settings);
 
             switch (model.ConsentType)
             {
                 case ConsentType.Admin:
-                    return Ok(new ResponseAccountAuthorizeModel(_authenticationService.CreateAdminConsentUrl(model.BasePath, $"api/consentcallback")));
+                    return Ok(new ResponseAccountAuthorizeModel(_authenticationService.CreateAdminConsentUrl(normalizedBasePath, $"api/consentcallback")));
                 case ConsentType.Individual:
-                    return Ok(new ResponseAccountAuthorizeModel(_authenticationService.CreateUserConsentUrl(model.BasePath, $"api/consentcallback")));
+                    return Ok(new ResponseAccountAuthorizeModel(_authenticationService.CreateUserConsentUrl(normalizedBasePath, $"api/consentcallback")));
                 default:
                     return BadRequest("Unknown consent type");
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/api/account/consent/remove")]
         public IActionResult RemoveConsent()
@@ -82,13 +97,31 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             return LocalRedirect("/admin");
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/api/accounts")]
         public IActionResult GetAccounts(string basePath, string userId)
         {
             try
             {
-                var result = _authenticationService.GetAccounts(basePath, userId);
+                if (!TryNormalizeUri(basePath, out var normalizedBasePath))
+                {
+                    return BadRequest(ApiErrorDetails.InvalidBasePath);
+                }
+
+                if (!TryNormalizeIdentifier(userId, out var normalizedUserId))
+                {
+                    return BadRequest(ApiErrorDetails.InvalidUserId);
+                }
+
+                var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!TryNormalizeIdentifier(currentUserId, out var normalizedCurrentUserId) ||
+                    !string.Equals(normalizedUserId, normalizedCurrentUserId, StringComparison.OrdinalIgnoreCase))
+                {
+                    return Forbid();
+                }
+
+                var result = _authenticationService.GetAccounts(normalizedBasePath, normalizedUserId);
                 return Ok(result);
             }
             catch (ApplicationApiException ex)
@@ -97,15 +130,85 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             }
         }
 
+        [Authorize]
         [HttpPost]
         [Route("/api/account/connect")]
         public async Task<IActionResult> Connect([FromBody] RequestAccountConnectModel model)
         {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            if (!TryNormalizeIdentifier(model.UserId, out var normalizedUserId))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidUserId,
+                    model,
+                    m => m.UserId));
+            }
+
+            if (!TryNormalizeIdentifier(model.AccountId, out var normalizedAccountId))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidAccountId,
+                    model,
+                    m => m.AccountId));
+            }
+
+            if (!TryNormalizeUri(model.BasePath, out var normalizedBasePath))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidBasePath,
+                    model,
+                    m => m.BasePath));
+            }
+
+            if (!TryNormalizeUri(model.BaseUri, out var normalizedBaseUri))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidBaseUri,
+                    model,
+                    m => m.BaseUri));
+            }
+
+            model.UserId = normalizedUserId;
+            model.AccountId = normalizedAccountId;
+            model.BasePath = normalizedBasePath;
+            model.BaseUri = normalizedBaseUri;
+
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!TryNormalizeIdentifier(currentUserId, out var normalizedCurrentUserId) ||
+                !string.Equals(model.UserId, normalizedCurrentUserId, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
+            try
+            {
+                var accounts = _authenticationService.GetAccounts(model.BasePath, normalizedCurrentUserId);
+                var hasAccess = accounts.Any(a =>
+                    string.Equals(a.AccountId, model.AccountId, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(a.BaseUri, model.BaseUri, StringComparison.OrdinalIgnoreCase));
+
+                if (!hasAccess)
+                {
+                    return Forbid();
+                }
+            }
+            catch (ApplicationApiException ex)
+            {
+                return BadRequest(CreateErrorDetails(ex.Details, model));
+            }
+
             AccountConnectionSettings connectionSettings = CreateConnectionSettings(model);
             try
             {
                 ClaimsPrincipal principal =
                     _authenticationService.AuthenticateFromJwt(connectionSettings);
+
+                HttpContext.Session.Clear();
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
@@ -175,6 +278,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             return NoContent();
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/api/settings")]
         public IActionResult GetSetting()
@@ -192,6 +296,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             });
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/api/settings/datasource")]
         public IActionResult GetDatasource()
@@ -204,14 +309,50 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             });
         }
 
+        [Authorize]
         [HttpPut]
         [Route("/api/settings")]
         public IActionResult SetSettings([FromBody] SettingsModel model)
         {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            if (!TryNormalizeIdentifier(model.UserId, out var normalizedUserId))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidUserId,
+                    model,
+                    m => m.UserId));
+            }
+
+            if (!TryNormalizeIdentifier(model.AccountId, out var normalizedAccountId))
+            {
+                return BadRequest(ErrorDetailsModel.CreateErrorDetailsForOneModelProperty(
+                    ApiErrorDetails.InvalidAccountId,
+                    model,
+                    m => m.AccountId));
+            }
+
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!TryNormalizeIdentifier(currentUserId, out var normalizedCurrentUserId) ||
+                !string.Equals(normalizedUserId, normalizedCurrentUserId, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
+            var currentAccountId = HttpContext.User.FindFirstValue("account_id");
+            if (!TryNormalizeIdentifier(currentAccountId, out var normalizedCurrentAccountId) ||
+                !string.Equals(normalizedAccountId, normalizedCurrentAccountId, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
             var settings = _settingsRepository.Get();
             settings.BaseUri = settings.BaseUri;
-            settings.UserId = model.UserId;
-            settings.AccountId = model.AccountId;
+            settings.UserId = normalizedUserId;
+            settings.AccountId = normalizedAccountId;
             settings.Template = model.Template;
             settings.SignatureType = model.SignatureType;
             settings.UserProfile = model.UserProfile;
@@ -290,6 +431,55 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             };
             result.AddRange(userTemplates.EnvelopeTemplates.Select(t => new DataSourceItem(t.TemplateId, t.Name)));
             return result;
+        }
+
+        private const int MaxIdLength = 128;
+        private const int MaxUriLength = 512;
+
+        private bool TryNormalizeIdentifier(string value, out string normalized)
+        {
+            normalized = value?.Trim();
+            if (string.IsNullOrWhiteSpace(normalized) || normalized.Length > MaxIdLength)
+            {
+                return false;
+            }
+
+            foreach (var ch in normalized)
+            {
+                if (!char.IsLetterOrDigit(ch) && ch != '-')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool TryNormalizeUri(string value, out string normalized)
+        {
+            normalized = value?.Trim();
+            if (string.IsNullOrWhiteSpace(normalized) || normalized.Length > MaxUriLength)
+            {
+                return false;
+            }
+
+            if (!Uri.TryCreate(normalized, UriKind.Absolute, out var uri))
+            {
+                return false;
+            }
+
+            if (!string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(uri.Query) || !string.IsNullOrEmpty(uri.Fragment))
+            {
+                return false;
+            }
+
+            normalized = uri.ToString().TrimEnd('/');
+            return true;
         }
     }
 }

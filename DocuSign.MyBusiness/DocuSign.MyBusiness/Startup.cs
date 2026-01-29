@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DocuSign.MyBusiness.Domain.Admin.Services;
 using DocuSign.MyBusiness.Domain.Admin.Services.Interfaces;
@@ -30,7 +31,14 @@ namespace DocuSign.MyBusiness
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
             services.AddDistributedMemoryCache();
             services.AddHttpContextAccessor();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -78,6 +86,8 @@ namespace DocuSign.MyBusiness
                 config.Cookie.HttpOnly = true;
                 config.Cookie.SameSite = SameSiteMode.Lax;
                 config.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                config.SlidingExpiration = true;
+                config.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             });
 
             services.AddControllers().AddNewtonsoftJson();
