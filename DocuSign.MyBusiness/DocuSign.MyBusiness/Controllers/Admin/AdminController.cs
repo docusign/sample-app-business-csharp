@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -46,6 +47,16 @@ namespace DocuSign.MyBusiness.Controllers.Admin
         [Route("/api/account/consent/obtain")]
         public IActionResult ObtainConsent([FromBody] RequestAccountAuthorizeModel model)
         {
+            if (model == null)
+            {
+                return BadRequest("Request body is required.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var settings = _settingsRepository.Get();
             settings.BasePath = model.BasePath;
             _settingsRepository.Save(settings);
@@ -86,6 +97,26 @@ namespace DocuSign.MyBusiness.Controllers.Admin
         [Route("/api/accounts")]
         public IActionResult GetAccounts(string basePath, string userId)
         {
+            if (string.IsNullOrWhiteSpace(basePath) || !Uri.TryCreate(basePath, UriKind.Absolute, out var basePathUri) ||
+                (basePathUri.Scheme != Uri.UriSchemeHttps && basePathUri.Scheme != Uri.UriSchemeHttp))
+            {
+                return BadRequest(ApiErrorDetails.InvalidBasePath);
+            }
+
+            if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out _))
+            {
+                return BadRequest(ApiErrorDetails.InvalidUserId);
+            }
+
+            var consentSettings = _settingsRepository.Get();
+            if (!consentSettings.IsConsentGranted ||
+                string.IsNullOrWhiteSpace(consentSettings.UserId) ||
+                !string.Equals(consentSettings.UserId, userId, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(consentSettings.BasePath, basePath, StringComparison.OrdinalIgnoreCase))
+            {
+                return Unauthorized();
+            }
+
             try
             {
                 var result = _authenticationService.GetAccounts(basePath, userId);
@@ -101,6 +132,28 @@ namespace DocuSign.MyBusiness.Controllers.Admin
         [Route("/api/account/connect")]
         public async Task<IActionResult> Connect([FromBody] RequestAccountConnectModel model)
         {
+            if (model == null)
+            {
+                return BadRequest("Request body is required.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (model.AuthenticationType == AuthenticationType.UserAccount)
+            {
+                var consentSettings = _settingsRepository.Get();
+                if (!consentSettings.IsConsentGranted ||
+                    string.IsNullOrWhiteSpace(consentSettings.UserId) ||
+                    !string.Equals(consentSettings.UserId, model.UserId, StringComparison.OrdinalIgnoreCase) ||
+                    !string.Equals(consentSettings.BasePath, model.BasePath, StringComparison.OrdinalIgnoreCase))
+                {
+                    return Unauthorized();
+                }
+            }
+
             AccountConnectionSettings connectionSettings = CreateConnectionSettings(model);
             try
             {
