@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using IAuthenticationService = DocuSign.MyBusiness.Domain.Admin.Services.Interfaces.IAuthenticationService;
 
 namespace DocuSign.MyBusiness.Controllers.Admin
@@ -130,7 +131,7 @@ namespace DocuSign.MyBusiness.Controllers.Admin
 
         [HttpPost]
         [Route("/api/account/connect")]
-        public async Task<IActionResult> Connect([FromBody] RequestAccountConnectModel model)
+        public async Task<IActionResult> Connect([FromBody][Required] RequestAccountConnectModel model)
         {
             if (model == null)
             {
@@ -140,6 +141,12 @@ namespace DocuSign.MyBusiness.Controllers.Admin
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            // Ensure the authentication type is a valid, expected value before proceeding
+            if (!Enum.IsDefined(typeof(AuthenticationType), model.AuthenticationType))
+            {
+                return BadRequest("Invalid authentication type.");
             }
 
             if (model.AuthenticationType == AuthenticationType.UserAccount)
