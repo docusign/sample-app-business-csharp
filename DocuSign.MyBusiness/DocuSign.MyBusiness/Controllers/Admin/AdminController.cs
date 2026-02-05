@@ -149,16 +149,15 @@ namespace DocuSign.MyBusiness.Controllers.Admin
                 return BadRequest("Invalid authentication type.");
             }
 
-            if (model.AuthenticationType == AuthenticationType.UserAccount)
+            // Always enforce consent settings before establishing an account connection,
+            // independent of the client-provided authentication type.
+            var consentSettings = _settingsRepository.Get();
+            if (!consentSettings.IsConsentGranted ||
+                string.IsNullOrWhiteSpace(consentSettings.UserId) ||
+                !string.Equals(consentSettings.UserId, model.UserId, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(consentSettings.BasePath, model.BasePath, StringComparison.OrdinalIgnoreCase))
             {
-                var consentSettings = _settingsRepository.Get();
-                if (!consentSettings.IsConsentGranted ||
-                    string.IsNullOrWhiteSpace(consentSettings.UserId) ||
-                    !string.Equals(consentSettings.UserId, model.UserId, StringComparison.OrdinalIgnoreCase) ||
-                    !string.Equals(consentSettings.BasePath, model.BasePath, StringComparison.OrdinalIgnoreCase))
-                {
-                    return Unauthorized();
-                }
+                return Unauthorized();
             }
 
             AccountConnectionSettings connectionSettings = CreateConnectionSettings(model);
