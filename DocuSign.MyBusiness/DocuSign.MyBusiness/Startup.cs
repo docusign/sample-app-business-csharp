@@ -86,8 +86,13 @@ namespace DocuSign.MyBusiness
             {
                 options.Events.OnRedirectToLogin = context =>
                 {
-                    context.Response.Headers["Location"] = context.RedirectUri;
-                    context.Response.StatusCode = 401;
+                    if (context.Request.Path.StartsWithSegments("/api"))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    }
+
+                    context.Response.Redirect(context.RedirectUri);
                     return Task.CompletedTask;
                 };
             });
