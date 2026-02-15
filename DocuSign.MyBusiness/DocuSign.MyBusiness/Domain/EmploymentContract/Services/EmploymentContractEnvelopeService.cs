@@ -55,7 +55,7 @@ namespace DocuSign.MyBusiness.Domain.EmploymentContract.Services
                     ViewUrl senderView = _docuSignApiProvider.EnvelopApi.CreateSenderView(
                         accountId,
                         envelopeSummary.EnvelopeId,
-                        new ReturnUrlRequest
+                        new EnvelopeViewRequest
                         {
                             ReturnUrl = $"{_appConfiguration.DocuSign.RedirectBaseUrl}/{redirectUrl}"
                         });
