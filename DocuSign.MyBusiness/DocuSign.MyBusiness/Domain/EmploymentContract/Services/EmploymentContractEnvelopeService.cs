@@ -61,7 +61,7 @@ namespace DocuSign.MyBusiness.Domain.EmploymentContract.Services
                         });
                     return new CreateEnvelopeResponse(senderView.Url, envelopeSummary.EnvelopeId);
                 default:
-                    throw new ApplicationException("The Envelop Action is not supported");
+                    throw new ApplicationException("The Envelope Action is not supported");
             }
 
         }

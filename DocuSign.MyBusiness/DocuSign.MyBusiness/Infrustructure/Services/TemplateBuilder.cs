@@ -39,7 +39,7 @@ namespace DocuSign.MyBusiness.Infrustructure.Services
                     var templatePath = GetTemplatePathByName(templateName);
                     return File.ReadAllBytes(_rootDir + templatePath);
                 default:
-                    throw new ApplicationException("The template is not suported");
+                    throw new ApplicationException("The template is not supported");
             }
         }
 
@@ -58,7 +58,7 @@ namespace DocuSign.MyBusiness.Infrustructure.Services
                 case TemplateNames.CustomQuoteTemplateName:
                     return _customQuoteTemplatePath;
                 default:
-                    throw new ApplicationException("The template is not suported");
+                    throw new ApplicationException("The template is not supported");
             }
         }
     }
