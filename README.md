@@ -46,7 +46,7 @@ The Business Sample App demonstrates the following:
   - `{ PROTOCOL }://{ DOMAIN }/api/consentcallback`
 - Press "ADD SECRET KEY" and save the generated key (it will be used later in "Settings configuration" section to configure {SecretKey})
 - Press "GENERATE RSA" and save the generated key pairs (it will be used later in "Settings configuration" section to configure "private.key")
-- Installed and configured [Node.js](https://nodejs.org/en/download)
+- Installed and configured [Node.js](https://nodejs.org/en/download) `22.23.4`, `24.22.1`, `26.12.1` or higher.
 - Installed and configured [Docker](https://www.docker.com/)
 - Installed and configured [.Net 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
