@@ -28,7 +28,7 @@ namespace DocuSign.MyBusiness.Infrustructure.Extensions
                     {
                         if (contextFeature.Error is ApiException apiError)
                         {
-                            logger.LogError($"Error occured during Docusign api call: {contextFeature.Error}");
+                            logger.LogError($"Error occurred during Docusign api call: {contextFeature.Error}");
 
                             if (apiError.ErrorCode == (int)HttpStatusCode.Unauthorized)
                             {
@@ -39,7 +39,7 @@ namespace DocuSign.MyBusiness.Infrustructure.Extensions
                         }
                         else
                         {
-                            logger.LogError($"Error occured: {contextFeature.Error}");
+                            logger.LogError($"Error occurred: {contextFeature.Error}");
                         }
                         await context.Response.WriteAsync(new ErrorDetails
                         {

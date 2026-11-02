@@ -8,6 +8,6 @@ namespace DocuSign.MyBusiness.Infrustructure.Exceptions
             : base(message) { }
 
         public IDVException(Exception inner)
-            : base("Exception occured during enabling Identity Verification process. Check that IDV is enabled in Docusign account.", inner) { }
+            : base("Exception occurred during enabling Identity Verification process. Check that IDV is enabled in Docusign account.", inner) { }
     }
 }

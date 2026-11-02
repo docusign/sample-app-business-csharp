@@ -129,7 +129,7 @@ namespace DocuSign.MyBusiness.Domain.EmploymentContract.Services
                 case EnvelopeAction.ReviewAndSend:
                     return "created";
                 default:
-                    throw new ApplicationException("The envelop action is not supported");
+                    throw new ApplicationException("The envelope action is not supported");
             }
         }
     }
